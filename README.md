@@ -1,13 +1,12 @@
 # Proverb React
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/johnnyreilly/proverb-signalr-react?svg=true)](https://ci.appveyor.com/project/JohnReilly/proverb-signalr-react) [![TypeScript definitions on DefinitelyTyped](http://definitelytyped.org/badges/standard-flat.svg)](http://definitelytyped.org)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/johnnyreilly/proverb-react?svg=true)](https://ci.appveyor.com/project/JohnReilly/proverb-react) [![TypeScript definitions on DefinitelyTyped](http://definitelytyped.org/badges/standard-flat.svg)](http://definitelytyped.org)
 
 Proverb is a simple app that stores the wise sayings of sages.  Most notably those of "Socrates" Aruldas.
 
 This repository is built using the following technologies:
 
-- SignalR
-- TypeScript using ES2015
+- TypeScript using ES-latest
 - React
 - Webpack (with ts-loader for TypeScript compilation and babel-loader for transpilation)
 - Karma for testing
