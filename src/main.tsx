@@ -5,6 +5,8 @@ import { Router, hashHistory } from "react-router";
 
 import { getRoutes } from "./Routes";
 
+// __CONNECTION_URL__: JSON.stringify('http://localhost:7778/')
+
 ReactDOM.render((
   <Router history={hashHistory}>
     { getRoutes() }

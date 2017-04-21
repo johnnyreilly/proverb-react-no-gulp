@@ -1,22 +1,53 @@
-@import "font-awesome/less/font-awesome";
+﻿@import "font-awesome/less/font-awesome";
 @import "toastr/toastr";
-@import "bootstrap/less/bootstrap";
-@import "vendor/paper/variables.less";
-@import "vendor/paper/bootswatch.less";
+// @import "customtheme";
 
-.navbar {
-    .navbar-brand {
-        background: url(../images/icon.png) no-repeat left center !important;
-        background-size: contain !important;
-        padding-left: 3em !important;
+@import "bootstrap/less/bootstrap";
+@import "vendor/flatly/variables.less";
+@import "vendor/flatly/bootswatch.less";
+
+a {
+    cursor: pointer;
+}
+
+button.btn i {
+    padding-right: 0.5em;
+}
+
+#main {
+    /* start 'enter' transition */
+    &.ng-enter {
+        /* transition on enter for .5s */
+        transition: .5s;
+
+        /* start with opacity 0 (invisible) */
+        opacity: 0;
     }
 
-    .brand-title {
-        margin-left: 2em;
-        color: @white;
+    /* end 'enter' transition */
+    &.ng-enter-active {
+        /* end with opacity 1 (fade in) */
+        opacity: 1;
     }
 }
 
-.min-height-120 {
-    min-height: 120px;
+.waiter-background {
+    z-index: 99999 !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: @gray-light;
+    opacity: .9;
+    pointer-events: auto;
+    transition: opacity 0.3s linear;
+
+    h1 {
+        color: @gray-lighter;
+        padding-bottom: 2em;
+        align-self: flex-end;
+    }
 }
