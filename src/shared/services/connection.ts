@@ -11,3 +11,9 @@ export function status(response: Response) {
 export function json<T>(response: Response) {
     return response.json() as Promise<T>;
 }
+
+export function makeFormData(payload: Object) {
+    const data = new FormData();
+    data.append( "json", JSON.stringify( payload ) );
+    return data;
+}

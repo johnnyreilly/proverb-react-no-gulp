@@ -24,7 +24,6 @@ export function loadSaying(savedId: number) {
     type: SayingActionTypes.LOAD_SAYING,
     payload: savedId
   });
-  loadSaying(savedId);
 }
 
 export function loadedSaying(saying: Saying) {
@@ -34,9 +33,10 @@ export function loadedSaying(saying: Saying) {
   });
 }
 
-export function removedSaying(sayingId: Saying) {
+export function removedSaying(sayingId: number) {
   AppDispatcher.dispatch({
-    type: SayingActionTypes.REMOVED_SAYING
+    type: SayingActionTypes.REMOVED_SAYING,
+    payload: sayingId
   });
 }
 
@@ -45,7 +45,6 @@ export function savedSaying(savedId: number) {
     type: SayingActionTypes.SAVED_SAYING,
     payload: savedId
   });
-  loadSaying(savedId);
 }
 
 export function saveFailed(validationMessages: ValidationMessages) {
