@@ -4,6 +4,9 @@
 var path = require('path');
 var webpack = require('webpack');
 
+var packageJson = require('./package.json');
+var vendorDependencies = Object.keys(packageJson['dependencies']);
+
 var babelOptions = {
   "presets": [
     "react",
