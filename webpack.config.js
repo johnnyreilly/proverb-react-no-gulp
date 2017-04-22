@@ -32,7 +32,6 @@ module.exports = {
       'react-bootstrap',
       'react-router',
       'react-router-bootstrap',
-      'signalr',
       'toastr'
     ]
   },

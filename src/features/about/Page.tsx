@@ -10,7 +10,7 @@ const Page = () => (
 
     <h3>About the app</h3>
 
-    <p>Built using a combination of React, TypeScript and SignalR. Hosted on Azure.</p>
+    <p>Built using a combination of React, TypeScript and Flux. Hosted on Azure.</p>
 
     <h3>Version</h3>
 
