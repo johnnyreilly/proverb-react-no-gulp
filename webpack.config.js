@@ -21,19 +21,9 @@ module.exports = {
   cache: true,
   entry: {
     main: './src/main.tsx',
-    vendor: [
-      'babel-polyfill',
-      'jquery',
-      'moment',
-      'fbemitter',
-      'flux',
-      'react',
-      'react-dom',
-      'react-bootstrap',
-      'react-router',
-      'react-router-bootstrap',
-      'toastr'
-    ]
+    vendor: ['babel-polyfill'].concat(vendorDependencies).filter(function (dependency) {
+       return dependency !== 'bootstrap' && dependency !== 'font-awesome';
+    })
   },
   output: {
     path: path.resolve(__dirname, './dist/scripts'),
