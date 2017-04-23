@@ -8,7 +8,7 @@ interface Props {
   routes: PlainRoute[];
 }
 
-const TopNav = ({ path, routes }: Props) => {
+const TopNav: React.StatelessComponent<Props> = ({ path }) => {
   return (<Navbar bsStyle="default">
     <Navbar.Header>
       <Navbar.Brand>
