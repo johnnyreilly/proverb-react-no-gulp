@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, RouteComponentProps } from "react-router";
 import FBEmitter from "fbemitter";
+import moment from "moment";
 
 import SageStore from "../../../shared/stores/sageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
@@ -86,7 +87,7 @@ export default class SageDetail extends React.Component<Props, State> {
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Date of Birth</label>
-                <div className="col-xs-12 col-sm-9">{sage.dateOfBirth}</div>
+                <div className="col-xs-12 col-sm-9">{ moment(sage.dateOfBirth).format("ll") }</div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Sagacity</label>
