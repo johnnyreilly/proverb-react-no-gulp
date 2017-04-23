@@ -16,7 +16,7 @@
         "interface-name": [false],
         "jsx-alignment": false,
         "jsx-no-lambda": true,
-        "jsx-no-multiline-js": true,
+        "jsx-no-multiline-js": false,
         "jsx-no-string-ref": true,
         "jsx-self-close": true,
         "max-line-length": [false],
@@ -36,6 +36,7 @@
             "check-whitespace"
         ],
         "ordered-imports": false,
+        "radix": false,
         "quotemark": [
             true,
             "double",

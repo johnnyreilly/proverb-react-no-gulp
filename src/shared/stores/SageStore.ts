@@ -13,7 +13,7 @@ export interface SageState {
 class SageStore extends FluxStore<SageState> {
   constructor(dispatcher: Dispatcher<Action>) {
     super(dispatcher, () => ({
-      sages: undefined as Map<number, Sage>,
+      sages: new Map(),
       isInitialised: false
     }));
   }
@@ -46,5 +46,5 @@ class SageStore extends FluxStore<SageState> {
   }
 }
 
-const greeterStoreInstance = new SageStore(AppDispatcher);
-export default greeterStoreInstance;
+const sageStoreInstance = new SageStore(AppDispatcher);
+export default sageStoreInstance;

@@ -1,13 +1,18 @@
 import React from "react";
+import { RouteComponentProps } from "react-router";
 import FBEmitter from "fbemitter";
+
 import SageStore, { SageState } from "../../shared/stores/sageStore";
 import * as SageActions from "../../shared/actions/sageActions";
 import SageThumbnail from "./SageThumbnail";
 import Loading from "../../shared/components/Loading";
 
-class App extends React.Component<any, SageState> {
+interface Props extends RouteComponentProps<{
+}, {}> { }
+
+export default class Sages extends React.Component<Props, SageState> {
   eventSubscription: FBEmitter.EventSubscription;
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = SageStore.getState();
   }
@@ -16,12 +21,12 @@ class App extends React.Component<any, SageState> {
     this.eventSubscription = SageStore.addChangeListener(this._onChange);
   }
 
-  _onChange = () => {
-    this.setState(SageStore.getState());
-  }
-
   componentWillUnmount() {
     this.eventSubscription.remove();
+  }
+
+  _onChange = () => {
+    this.setState(SageStore.getState());
   }
 
   componentDidMount() {
@@ -46,5 +51,3 @@ class App extends React.Component<any, SageState> {
     );
   }
 }
-
-export default App;
