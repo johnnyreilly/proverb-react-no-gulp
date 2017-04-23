@@ -7,10 +7,6 @@ interface Props {
 }
 
 class Greeting extends React.Component<Props, any> {
-  static propTypes: React.ValidationMap<Props> = {
-    targetOfGreeting: React.PropTypes.string.isRequired
-  };
-
   constructor(props: Props) {
     super(props);
   }
@@ -28,7 +24,7 @@ class Greeting extends React.Component<Props, any> {
     );
   }
 
-  _onClick = (event: React.MouseEvent<any>) => {
+  _onClick = (_event: React.MouseEvent<any>) => {
     GreetingActions.removeGreeting(this.props.targetOfGreeting);
   }
 }

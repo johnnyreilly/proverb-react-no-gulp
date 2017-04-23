@@ -7,10 +7,6 @@ interface Props {
 }
 
 export default class SageThumbnail extends React.Component<Props, any> {
-  static propTypes: React.ValidationMap<Props> = {
-    targetOfGreeting: React.PropTypes.string.isRequired
-  };
-
   constructor(props: Props) {
     super(props);
   }

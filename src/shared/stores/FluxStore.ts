@@ -49,7 +49,7 @@ class FluxStore<TState> {
     }
   }
 
-  _onDispatch(payload: any) {
+  _onDispatch(_payload: any) {
     if (process.env.NODE_ENV !== "production") {
       console.error(`${this.constructor.name} has not overridden FluxStore.__onDispatch(), which is required`);
     }

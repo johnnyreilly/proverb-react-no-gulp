@@ -5,7 +5,7 @@ import { loadedSage, loadedSages, removedSage, savedSage, saveFailed } from "../
 const rootUrl = getConnectionUrl + "sage";
 
 export function getAll() {
-    return fetch(this.rootUrl)
+    return fetch(rootUrl)
         .then(status)
         .then(response => json<Sage[]>(response))
         .then(loadedSages);

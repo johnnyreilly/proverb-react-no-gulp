@@ -5,21 +5,21 @@ import { loadedSaying, loadedSayings, removedSaying, savedSaying, saveFailed } f
 const rootUrl = getConnectionUrl + "saying";
 
 export function getAll() {
-    return fetch(this.rootUrl)
+    return fetch(rootUrl)
         .then(status)
         .then(response => json<Saying[]>(response))
         .then(loadedSayings);
 }
 
 export function getById(id: number) {
-    return fetch(`${rootUrl}/id`)
+    return fetch(`${rootUrl}/${id}`)
         .then(status)
         .then(response => json<Saying>(response))
         .then(loadedSaying);
 }
 
 export function remove(id: number) {
-    return fetch(`${rootUrl}/id`, { method: "DELETE" })
+    return fetch(`${rootUrl}/${id}`, { method: "DELETE" })
         .then(status)
         .then(_ => removedSaying(id));
 }
@@ -31,5 +31,3 @@ export function save(saying: Saying) {
         .then(savedSaying)
         .catch(saveFailed);
 }
-
-
