@@ -9,7 +9,7 @@ interface Props {
 }
 
 const TopNav = ({ path, routes }: Props) => {
-  return (<Navbar bsStyle="inverse">
+  return (<Navbar bsStyle="default">
     <Navbar.Header>
       <Navbar.Brand>
         <Link to="/"><span className="brand-title">Proverb</span></Link>
@@ -18,11 +18,14 @@ const TopNav = ({ path, routes }: Props) => {
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav activeHref={ path }>
-        <LinkContainer to="/sayings">
-          <NavItem eventKey={1}>Sayings</NavItem>
+        <LinkContainer to="/dashboard">
+          <NavItem eventKey={0}><i className="fa fa-dashboard" /> Dashboard</NavItem>
         </LinkContainer>
         <LinkContainer to="/sages">
-          <NavItem eventKey={2}>Sages</NavItem>
+          <NavItem eventKey={1}><i className="fa fa-users" /> Sages</NavItem>
+        </LinkContainer>
+        <LinkContainer to="/sayings">
+          <NavItem eventKey={2}><i className="fa fa-comment" /> Sayings</NavItem>
         </LinkContainer>
       </Nav>
       <Nav pullRight>

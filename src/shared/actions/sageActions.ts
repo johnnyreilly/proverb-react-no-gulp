@@ -1,6 +1,6 @@
 import AppDispatcher from "../AppDispatcher";
 import { Sage } from "../domain/dtos/sage";
-import sageHub from "../hubs/sageHub";
+import * as sageService from "../services/sageService";
 import { ValidationMessages } from "../domain/saveResult";
 
 export const SageActionTypes = {
@@ -17,7 +17,7 @@ export const SageActionTypes = {
 
 export function loadSages() {
   AppDispatcher.dispatch({ type: SageActionTypes.LOADING_SAGES });
-  sageHub.getAll();
+  sageService.getAll();
 }
 
 export function loadedSages(sages: Sage[]) {
@@ -29,7 +29,7 @@ export function loadedSages(sages: Sage[]) {
 
 export function loadSage(id: number) {
   AppDispatcher.dispatch({ type: SageActionTypes.LOAD_SAGE });
-  sageHub.getById(id);
+  sageService.getById(id);
 }
 
 export function loadedSage(sage: Sage) {
@@ -41,7 +41,7 @@ export function loadedSage(sage: Sage) {
 
 export function removeSage(id: number) {
   AppDispatcher.dispatch({ type: SageActionTypes.REMOVE_SAGE });
-  sageHub.remove(id);
+  sageService.remove(id);
 }
 
 export function removedSage(sageId: number) {
@@ -56,6 +56,7 @@ export function saveSage(sage: Sage) {
     type: SageActionTypes.SAVE_SAGE,
     payload: sage
   });
+  sageService.save(sage);
 }
 
 export function savedSage(savedId: number) {

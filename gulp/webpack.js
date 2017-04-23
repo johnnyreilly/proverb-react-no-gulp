@@ -49,7 +49,8 @@ function createDevCompiler() {
       new webpack.DefinePlugin({
           __IN_DEBUG__: true,
           __VERSION__: JSON.stringify(packageJson.version + '.' + Date.now()),
-          __CONNECTION_URL__: JSON.stringify('http://localhost:7778/')
+          __CONNECTION_URL__: JSON.stringify('https://proverb-api.azurewebsites.net/')
+          // __CONNECTION_URL__: JSON.stringify('http://localhost:7778/')
       }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
     new WebpackNotifierPlugin({ title: 'Webpack build', excludeWarnings: true })
