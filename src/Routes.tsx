@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Route, IndexRedirect } from "react-router";
+
 import Greeting from "./features/greeting/Page";
 import Sages from "./features/sage/Page";
 import SageDetail from "./features/sage/detail/Page";

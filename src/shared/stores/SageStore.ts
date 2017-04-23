@@ -22,25 +22,28 @@ class SageStore extends FluxStore<SageState> {
     return this._state;
   }
 
-  _updateState(updatedSages: Map<number, Sage>) {
+  _updateState = (updatedSages: Map<number, Sage>) => {
     this._state = Object.assign({}, this._state, { sages: updatedSages, isInitialised: true });
     this.emitChange();
   }
 
   _onDispatch(action: Action) {
+    const state = this._state;
+    const updateState = this._updateState;
+
     switch (action.type) {
       case SageActionTypes.LOADED_SAGES:
         const sages = action.payload as Sage[];
-        this._updateState(new Map([...sages.map(sage => [sage.id, sage] as [number, Sage])]));
+        updateState(new Map([...sages.map(sage => [sage.id, sage] as [number, Sage])]));
         break;
-      case SageActionTypes.LOADED_SAGE: // Not actually used at present.... remove?
+      case SageActionTypes.LOADED_SAGE:
         const sage = action.payload as Sage;
-        this._updateState(this._state.sages ? this._state.sages.set(sage.id, sage) : new Map([[sage.id, sage]]));
+        updateState(state.sages.set(sage.id, sage));
         break;
       case SageActionTypes.REMOVED_SAGE:
         const sageId = action.payload as number;
-        this._state.sages.delete(sageId);
-        this._updateState(this._state.sages);
+        state.sages.delete(sageId);
+        updateState(state.sages);
         break;
     }
   }

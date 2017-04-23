@@ -6,4 +6,3 @@ export interface Saying {
     sage?: Sage;
     text: string;
 }
-

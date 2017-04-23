@@ -36,18 +36,17 @@ export default class Sages extends React.Component<Props, SageState> {
   }
 
   render() {
+    const { children } = this.props;
     const { isInitialised, sages } = this.state;
 
-    const content = isInitialised
-      ? [...sages.values()].map((sage, index) => <SageThumbnail key={index} sage={sage} />)
-      : <Loading/>;
-
-    return (
-      <div className="container">
+    return children
+      ? children
+      : <div className="container">
         <h2>Sages</h2>
 
-        { content }
-      </div>
-    );
+        {isInitialised
+          ? [...sages.values()].map((sage, index) => <SageThumbnail key={index} sage={sage} />)
+          : <Loading />}
+      </div>;
   }
 }
