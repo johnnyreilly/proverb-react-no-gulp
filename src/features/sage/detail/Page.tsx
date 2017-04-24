@@ -24,7 +24,10 @@ export default class SageDetail extends React.Component<Props, State> {
   }
 
   _onChange = () => {
-    this.setState(this.getSageFromStore(this.props.params.id));
+    this.setState((prevState, props) => Object.assign(
+      prevState,
+      this.getSageFromStore(props.params.id)
+    ));
   }
 
   getSageFromStore(id: string) {

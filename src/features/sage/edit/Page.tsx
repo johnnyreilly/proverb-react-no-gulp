@@ -7,6 +7,7 @@ import SageStore from "../../../shared/stores/SageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Loading from "../../../shared/components/Loading";
 import { Sage } from "../../../shared/domain/dtos/sage";
+import { inputValue } from "../../../shared/utils/componentHelpers";
 
 interface Props extends RouteComponentProps<{
   id: string;
@@ -15,17 +16,21 @@ interface Props extends RouteComponentProps<{
 interface State {
   sage: Sage;
   validations: Map<string, string>;
+  hasChanges: boolean;
 }
 
 export default class SageEdit extends React.Component<Props, State> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
-    this.state = this.getSageAndValidationsFromStore(props.params.id);
+    this.state = Object.assign(this.getSageAndValidationsFromStore(props.params.id), { hasChanges: false });
   }
 
   _onChange = () => {
-    this.setState(this.getSageAndValidationsFromStore(this.props.params.id));
+    this.setState((prevState, props) => Object.assign(
+      prevState,
+      this.getSageAndValidationsFromStore(props.params.id)
+    )); // TODO: Do something more sophisticated?
   }
 
   getSageAndValidationsFromStore(id: string) {
@@ -60,14 +65,18 @@ export default class SageEdit extends React.Component<Props, State> {
     SageActions.loadSage(parseInt(id));
   }
 
-  _handleNameChange = (event: React.FormEvent<any>) => {
-    const newName = (event.target as HTMLInputElement).value;
-    const newSage = Object.assign({}, this.state.sage, { name: newName });
-    this.setState({ sage: newSage });
+  _onFieldChange = (event: React.FormEvent<any>) => {
+    const eventTarget = event.target as HTMLInputElement;
+    const fieldName = eventTarget.name;
+    const fieldValue = eventTarget.value;
+    this.setState((prevState, _props) => Object.assign(
+      prevState,
+      { hasChanges: true, sage: Object.assign(prevState.sage, { [fieldName]: fieldValue }) }
+    ));
   }
 
   render() {
-    const { sage } = this.state;
+    const { sage, hasChanges } = this.state;
 
     return (
       <div className="container">
@@ -84,10 +93,7 @@ export default class SageEdit extends React.Component<Props, State> {
                 ng-disabled="!vm.canDelete">
                 <i className="fa fa-trash fa-lg" /> Remove
                     </button>
-              <span ng-show="vm.hasChanges"
-                className="ng-hide">
-                <i className="fa fa-asterisk fa-lg orange" />
-              </span>
+              {hasChanges ? <i className="fa fa-asterisk fa-lg text-warning" /> : null}
             </div>
 
             <h2>Sage Edit: {sage ? sage.name : null}</h2>
@@ -95,15 +101,21 @@ export default class SageEdit extends React.Component<Props, State> {
             <div className="form-horizontal">
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Name</label>
-                <div className="col-xs-12 col-sm-9"><input className="form-control" type="text" name="sage.name" value={sage.name} onChange={ this._handleNameChange } server-error="vm.errors" /></div>
+                <div className="col-xs-12 col-sm-9">
+                  <input className="form-control" type="text" name="name" value={ inputValue(sage.name) } onChange={this._onFieldChange} server-error="vm.errors" />
+                </div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Username</label>
-                <div className="col-xs-12 col-sm-9">{sage.username}</div>
+                <div className="col-xs-12 col-sm-9">
+                  <input className="form-control" type="text" name="username" value={ inputValue(sage.username) } onChange={this._onFieldChange} server-error="vm.errors" />
+                </div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Email</label>
-                <div className="col-xs-12 col-sm-9">{sage.email}</div>
+                <div className="col-xs-12 col-sm-9">
+                  <input className="form-control" type="text" name="email" value={ inputValue(sage.email) } onChange={this._onFieldChange} server-error="vm.errors" />
+                </div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Date of Birth</label>
@@ -111,7 +123,9 @@ export default class SageEdit extends React.Component<Props, State> {
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Sagacity</label>
-                <div className="col-xs-12 col-sm-9">{sage.sagacity}</div>
+                <div className="col-xs-12 col-sm-9">
+                  <input className="form-control" type="text" name="sagacity" value={ inputValue(sage.sagacity) } onChange={this._onFieldChange} server-error="vm.errors" />
+                </div>
               </div>
             </div>
           </form>
