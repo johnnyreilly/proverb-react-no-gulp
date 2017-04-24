@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router";
 import FBEmitter from "fbemitter";
 import moment from "moment";
 
@@ -14,25 +14,26 @@ interface Props extends RouteComponentProps<{
 
 interface State {
   sage: Sage;
+  validations: Map<string, string>;
 }
 
-export default class SageDetail extends React.Component<Props, State> {
+export default class SageEdit extends React.Component<Props, State> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
-    this.state = this.getSageFromStore(props.params.id);
+    this.state = this.getSageAndValidationsFromStore(props.params.id);
   }
 
   _onChange = () => {
-    this.setState(this.getSageFromStore(this.props.params.id));
+    this.setState(this.getSageAndValidationsFromStore(this.props.params.id));
   }
 
-  getSageFromStore(id: string) {
+  getSageAndValidationsFromStore(id: string) {
     const state = SageStore.getState();
     const idNum = parseInt(id);
     return state.isInitialised && state.sages.has(idNum)
-      ? { sage: state.sages.get(idNum) }
-      : { sage: undefined };
+      ? { sage: state.sages.get(idNum), validations: state.validations }
+      : { sage: undefined, validations: new Map() };
   }
 
   componentWillMount() {
@@ -59,23 +60,42 @@ export default class SageDetail extends React.Component<Props, State> {
     SageActions.loadSage(parseInt(id));
   }
 
+  _handleNameChange = (event: React.FormEvent<any>) => {
+    const newName = (event.target as HTMLInputElement).value;
+    const newSage = Object.assign({}, this.state.sage, { name: newName });
+    this.setState({ sage: newSage });
+  }
+
   render() {
     const { sage } = this.state;
 
     return (
       <div className="container">
         {sage
-          ? <div>
+          ? <form name="form" role="form">
             <div>
-              <Link to={`/sage/edit/${this.props.params.id}`}><i className="fa fa-pencil fa-lg" /> Edit</Link>
+              <button className="btn btn-info"
+                ng-click="vm.save()"
+                ng-disabled="!vm.canSave">
+                <i className="fa fa-save fa-lg" /> Save
+                    </button>
+              <button className="btn btn-danger"
+                ng-click="vm.remove()"
+                ng-disabled="!vm.canDelete">
+                <i className="fa fa-trash fa-lg" /> Remove
+                    </button>
+              <span ng-show="vm.hasChanges"
+                className="ng-hide">
+                <i className="fa fa-asterisk fa-lg orange" />
+              </span>
             </div>
 
-            <h2>Sage Details: {sage ? sage.name : null}</h2>
+            <h2>Sage Edit: {sage ? sage.name : null}</h2>
 
             <div className="form-horizontal">
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Name</label>
-                <div className="col-xs-12 col-sm-9">{sage.name}</div>
+                <div className="col-xs-12 col-sm-9"><input className="form-control" type="text" name="sage.name" value={sage.name} onChange={ this._handleNameChange } server-error="vm.errors" /></div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Username</label>
@@ -87,14 +107,14 @@ export default class SageDetail extends React.Component<Props, State> {
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Date of Birth</label>
-                <div className="col-xs-12 col-sm-9">{ moment(sage.dateOfBirth).format("ll") }</div>
+                <div className="col-xs-12 col-sm-9">{moment(sage.dateOfBirth).format("ll")}</div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Sagacity</label>
                 <div className="col-xs-12 col-sm-9">{sage.sagacity}</div>
               </div>
             </div>
-          </div>
+          </form>
 
           : <Loading />}
       </div>
