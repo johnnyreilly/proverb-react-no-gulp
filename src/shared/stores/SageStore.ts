@@ -8,17 +8,15 @@ import AppDispatcher from "../AppDispatcher";
 import { ValidationMessages } from "../domain/saveResult";
 
 export interface SageState {
-  sages: Map<number, Sage>;
+  sage: Sage;
   validations: Map<string, string>;
-  isInitialised: boolean;
 }
 
 class SageStore extends FluxStore<SageState> {
   constructor(dispatcher: Dispatcher<Action>) {
     super(dispatcher, () => ({
-      sages: new Map(),
-      validations: new Map(),
-      isInitialised: false
+      sage: undefined,
+      validations: new Map()
     }));
   }
 
@@ -26,8 +24,8 @@ class SageStore extends FluxStore<SageState> {
     return this._state;
   }
 
-  _updateSages = (updatedSages: Map<number, Sage>) => {
-    this._state = Object.assign({}, this._state, { sages: updatedSages, isInitialised: true });
+  _updateSage = (updatedSage: Sage) => {
+    this._state = Object.assign({}, this._state, { sage: updatedSage });
     this.emitChange();
   }
 
@@ -37,25 +35,17 @@ class SageStore extends FluxStore<SageState> {
   }
 
   _onDispatch(action: Action) {
-    const state = this._state;
-    const updateSages = this._updateSages;
+    const updateSage = this._updateSage;
     const updateValidations = this._updateValidations;
 
     switch (action.type) {
-      case SageActionTypes.LOADED_SAGES:
-        const sages = action.payload as Sage[];
-        updateSages(new Map([...sages.map(sage => [sage.id, sage] as [number, Sage])]));
-        break;
-
       case SageActionTypes.LOADED_SAGE:
         const sage = action.payload as Sage;
-        updateSages(state.sages.set(sage.id, sage));
+        updateSage(sage);
         break;
 
       case SageActionTypes.REMOVED_SAGE:
-        const sageId = action.payload as number;
-        state.sages.delete(sageId);
-        updateSages(state.sages);
+        updateSage(null);
         break;
 
       case SageActionTypes.SAVE_SAGE_FAILED:

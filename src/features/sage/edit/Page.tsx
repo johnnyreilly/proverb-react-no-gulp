@@ -37,8 +37,8 @@ export default class SageEdit extends React.Component<Props, State> {
   getSageAndValidationsFromStore(id: string) {
     const state = SageStore.getState();
     const idNum = parseInt(id);
-    return state.isInitialised && state.sages.has(idNum)
-      ? { sage: state.sages.get(idNum), validations: state.validations }
+    return state.sage && state.sage.id === idNum
+      ? { sage: state.sage, validations: state.validations }
       : { sage: undefined, validations: new Map() };
   }
 

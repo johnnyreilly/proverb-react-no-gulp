@@ -7,6 +7,7 @@ import SageStore from "../../../shared/stores/SageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Loading from "../../../shared/components/Loading";
 import { Sage } from "../../../shared/domain/dtos/sage";
+import DetailControls from "../../../shared/components/DetailControls";
 
 interface Props extends RouteComponentProps<{
   id: string;
@@ -33,8 +34,8 @@ export default class SageDetail extends React.Component<Props, State> {
   getSageFromStore(id: string) {
     const state = SageStore.getState();
     const idNum = parseInt(id);
-    return state.isInitialised && state.sages.has(idNum)
-      ? { sage: state.sages.get(idNum) }
+    return state.sage && state.sage.id === idNum
+      ? { sage: state.sage }
       : { sage: undefined };
   }
 
@@ -76,26 +77,15 @@ export default class SageDetail extends React.Component<Props, State> {
             <h2>Sage Details: {sage ? sage.name : null}</h2>
 
             <div className="form-horizontal">
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Name</label>
-                <div className="col-xs-12 col-sm-9">{sage.name}</div>
-              </div>
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Username</label>
-                <div className="col-xs-12 col-sm-9">{sage.userName}</div>
-              </div>
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Email</label>
-                <div className="col-xs-12 col-sm-9">{sage.email}</div>
-              </div>
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Date of Birth</label>
-                <div className="col-xs-12 col-sm-9">{ moment(sage.dateOfBirth).format("ll") }</div>
-              </div>
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Sagacity</label>
-                <div className="col-xs-12 col-sm-9">{sage.sagacity}</div>
-              </div>
+              <DetailControls label="Name" value={sage.name} />
+
+              <DetailControls label="Username" value={sage.userName} />
+
+              <DetailControls label="Email" value={sage.email} />
+
+              <DetailControls label="Date of Birth" value={moment(sage.dateOfBirth).format("ll")} />
+
+              <DetailControls label="Sagacity" value={sage.sagacity} />
             </div>
           </div>
 
