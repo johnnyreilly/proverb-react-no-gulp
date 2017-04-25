@@ -2,7 +2,7 @@ import React from "react";
 import { RouteComponentProps } from "react-router";
 import FBEmitter from "fbemitter";
 
-import SagesStore, { SagesState } from "../../shared/stores/SagesStore";
+import SagesStore, { SagesState } from "./SagesStore";
 import * as SageActions from "../../shared/actions/sageActions";
 import SageThumbnail from "./SageThumbnail";
 import Loading from "../../shared/components/Loading";

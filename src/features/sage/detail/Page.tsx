@@ -3,7 +3,7 @@ import { Link, RouteComponentProps } from "react-router";
 import FBEmitter from "fbemitter";
 import moment from "moment";
 
-import SageStore from "../../../shared/stores/SageStore";
+import SageStore from "../SageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Loading from "../../../shared/components/Loading";
 import { Sage } from "../../../shared/domain/dtos/sage";

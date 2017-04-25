@@ -1,10 +1,10 @@
 import { Dispatcher } from "flux";
 
-import FluxStore from "./FluxStore";
-import { SageActionTypes } from "../actions/sageActions";
-import { Action } from "../domain/action";
-import { Sage } from "../domain/dtos/sage";
-import AppDispatcher from "../AppDispatcher";
+import FluxStore from "../../shared/stores/FluxStore";
+import { SageActionTypes } from "../../shared/actions/sageActions";
+import { Action } from "../../shared/domain/action";
+import { Sage } from "../../shared/domain/dtos/sage";
+import AppDispatcher from "../../shared/AppDispatcher";
 
 export interface SagesState {
   sages: Map<number, Sage>;
