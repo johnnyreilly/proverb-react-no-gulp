@@ -15,3 +15,8 @@ export function makeFormData(payload: Object) {
     data.append("json", JSON.stringify(payload));
     return data;
 }
+
+export const jsonHeaders = {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+};

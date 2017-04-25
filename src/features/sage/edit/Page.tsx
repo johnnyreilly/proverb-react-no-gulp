@@ -5,6 +5,7 @@ import FBEmitter from "fbemitter";
 import SageStore from "../../../shared/stores/SageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Loading from "../../../shared/components/Loading";
+import FormControls from "../../../shared/components/FormControls";
 import { Sage } from "../../../shared/domain/dtos/sage";
 import { inputValue, dateValue } from "../../../shared/utils/componentHelpers";
 
@@ -104,14 +105,14 @@ export default class SageEdit extends React.Component<Props, State> {
   }
 
   render() {
-    const { sage, hasChanges } = this.state;
+    const { sage, hasChanges, validations } = this.state;
 
     return (
       <div className="container">
         {sage
           ? <form name="form" role="form">
             <div>
-              <button className="btn btn-info" disabled={!this.canSave} onClick={ this._onClickSave }>
+              <button className="btn btn-info" disabled={!this.canSave} onClick={this._onClickSave}>
                 <i className="fa fa-save fa-lg" /> Save
               </button>
 
@@ -125,36 +126,15 @@ export default class SageEdit extends React.Component<Props, State> {
             <h2>Sage Edit: {sage ? sage.name : null}</h2>
 
             <div className="form-horizontal">
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Name</label>
-                <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="text" name="name" value={inputValue(sage.name)} onChange={this._onFieldChange} server-error="vm.errors" />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Username</label>
-                <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="text" name="username" value={inputValue(sage.username)} onChange={this._onFieldChange} server-error="vm.errors" />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Email</label>
-                <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="text" name="email" value={inputValue(sage.email)} onChange={this._onFieldChange} server-error="vm.errors" />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Date of Birth</label>
-                <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="date" name="dateOfBirth" value={dateValue(sage.dateOfBirth)} onChange={this._onFieldChange} server-error="vm.errors" />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="col-xs-12 col-sm-2">Sagacity</label>
-                <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="number" name="sagacity" value={inputValue(sage.sagacity)} onChange={this._onFieldChange} server-error="vm.errors" />
-                </div>
-              </div>
+              <FormControls label="Name" name="name" value={inputValue(sage.name)} onFieldChange={this._onFieldChange} errors={validations} />
+
+              <FormControls label="Username" name="userName" value={inputValue(sage.userName)} onFieldChange={this._onFieldChange} errors={validations} />
+
+              <FormControls label="Email" name="email" value={inputValue(sage.email)} onFieldChange={this._onFieldChange} errors={validations} />
+
+              <FormControls label="Date of Birth" name="dateOfBirth" type="date" value={dateValue(sage.dateOfBirth)} onFieldChange={this._onFieldChange} errors={validations} />
+
+              <FormControls label="Sagacity" name="sagacity" value={inputValue(sage.sagacity)} onFieldChange={this._onFieldChange} errors={validations} />
             </div>
           </form>
 

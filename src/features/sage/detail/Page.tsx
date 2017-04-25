@@ -82,7 +82,7 @@ export default class SageDetail extends React.Component<Props, State> {
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Username</label>
-                <div className="col-xs-12 col-sm-9">{sage.username}</div>
+                <div className="col-xs-12 col-sm-9">{sage.userName}</div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Email</label>

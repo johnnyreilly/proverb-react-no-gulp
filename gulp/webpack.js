@@ -43,7 +43,7 @@ function buildProduction(done) {
 function createDevCompiler() {
   // modify some webpack config options
   var myDevConfig = webpackConfig;
-  myDevConfig.devtool = 'source-map';
+  myDevConfig.devtool = 'inline-source-map';
 
   myDevConfig.plugins = myDevConfig.plugins.concat(
       new webpack.DefinePlugin({

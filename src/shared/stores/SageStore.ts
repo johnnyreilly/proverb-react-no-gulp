@@ -1,9 +1,11 @@
 import { Dispatcher } from "flux";
+
 import FluxStore from "./FluxStore";
 import { SageActionTypes } from "../actions/sageActions";
 import { Action } from "../domain/action";
 import { Sage } from "../domain/dtos/sage";
 import AppDispatcher from "../AppDispatcher";
+import { ValidationMessages } from "../domain/saveResult";
 
 export interface SageState {
   sages: Map<number, Sage>;
@@ -54,6 +56,13 @@ class SageStore extends FluxStore<SageState> {
         const sageId = action.payload as number;
         state.sages.delete(sageId);
         updateSages(state.sages);
+        break;
+
+      case SageActionTypes.SAVE_SAGE_FAILED:
+        const validations = action.payload as ValidationMessages;
+        updateValidations(new Map([
+          ...Object.keys(validations.errors).map(error => [error, validations.errors[error].join()] as [string, string])
+        ]));
         break;
 
       case SageActionTypes.CLEAR_VALIDATIONS:

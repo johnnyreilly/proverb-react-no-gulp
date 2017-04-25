@@ -1,4 +1,5 @@
-import { getConnectionUrl, status, json } from "./connection";
+import { getConnectionUrl, status, json, jsonHeaders } from "./connection";
+import { SaveResult } from "../domain/saveResult";
 import { Sage } from "../domain/dtos/sage";
 import { loadedSage, loadedSages, removedSage, savedSage, saveFailed } from "../actions/sageActions";
 
@@ -25,14 +26,15 @@ export function remove(id: number) {
 }
 
 export function save(sage: Sage) {
-    const headers = {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-    };
-    return fetch(rootUrl, { headers, method: "POST", body: JSON.stringify(sage) })
+    return fetch(rootUrl, { headers: jsonHeaders, method: "POST", body: JSON.stringify(sage) })
         .then(status)
-        .then(response => json<number>(response))
-        .then(savedSage)
-        .catch(saveFailed);
-
+        .then(response => json<SaveResult>(response))
+        .then(saveResult => {
+            if (saveResult.isSaved) {
+                savedSage(saveResult.savedId);
+            } else {
+                saveFailed(saveResult.validations);
+            }
+        })
+        .catch(saveFailed); // TODO: this wouldn't actually receive validations; probably should be separate action
 }
