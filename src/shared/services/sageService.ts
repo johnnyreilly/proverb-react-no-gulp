@@ -26,12 +26,13 @@ export function remove(id: number) {
 
 export function save(sage: Sage) {
     const headers = {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
+        "Accept": "application/json",
+        "Content-Type": "application/json"
     };
     return fetch(rootUrl, { headers, method: "POST", body: JSON.stringify(sage) })
         .then(status)
         .then(response => json<number>(response))
         .then(savedSage)
         .catch(saveFailed);
+
 }
