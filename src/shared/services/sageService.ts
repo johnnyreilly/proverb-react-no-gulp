@@ -1,4 +1,4 @@
-import { getConnectionUrl, status, json, makeFormData } from "./connection";
+import { getConnectionUrl, status, json } from "./connection";
 import { Sage } from "../domain/dtos/sage";
 import { loadedSage, loadedSages, removedSage, savedSage, saveFailed } from "../actions/sageActions";
 
@@ -25,7 +25,11 @@ export function remove(id: number) {
 }
 
 export function save(sage: Sage) {
-    return fetch(rootUrl, { method: "POST", body: makeFormData(sage) })
+    const headers = {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    };
+    return fetch(rootUrl, { headers, method: "POST", body: JSON.stringify(sage) })
         .then(status)
         .then(response => json<number>(response))
         .then(savedSage)

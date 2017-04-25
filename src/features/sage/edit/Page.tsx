@@ -16,13 +16,14 @@ interface State {
   sage: Sage;
   validations: Map<string, string>;
   hasChanges: boolean;
+  isSavingOrRemoving: boolean;
 }
 
 export default class SageEdit extends React.Component<Props, State> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
-    this.state = Object.assign(this.getSageAndValidationsFromStore(props.params.id), { hasChanges: false });
+    this.state = Object.assign(this.getSageAndValidationsFromStore(props.params.id), { hasChanges: false, isSavingOrRemoving: false });
   }
 
   _onChange = () => {
@@ -74,6 +75,34 @@ export default class SageEdit extends React.Component<Props, State> {
     ));
   }
 
+  _onClickSave = (event: React.FormEvent<any>) => {
+    event.preventDefault();
+
+    if (this.canSave) {
+      SageActions.saveSage(this.state.sage);
+    }
+  }
+
+  _onClickRemove = (event: React.FormEvent<any>) => {
+    event.preventDefault();
+
+    if (this.canRemove) {
+      SageActions.removeSage(this.state.sage.id);
+    }
+  }
+
+  get canSave(): boolean {
+    return this.state.hasChanges && !this.isSavingOrRemoving;
+  }
+
+  get canRemove(): boolean {
+    return !this.isSavingOrRemoving;
+  }
+
+  get isSavingOrRemoving(): boolean {
+    return this.state.isSavingOrRemoving;
+  }
+
   render() {
     const { sage, hasChanges } = this.state;
 
@@ -82,16 +111,14 @@ export default class SageEdit extends React.Component<Props, State> {
         {sage
           ? <form name="form" role="form">
             <div>
-              <button className="btn btn-info"
-                ng-click="vm.save()"
-                ng-disabled="!vm.canSave">
+              <button className="btn btn-info" disabled={!this.canSave} onClick={ this._onClickSave }>
                 <i className="fa fa-save fa-lg" /> Save
-                    </button>
-              <button className="btn btn-danger"
-                ng-click="vm.remove()"
-                ng-disabled="!vm.canDelete">
+              </button>
+
+              <button className="btn btn-danger" disabled={!this.canRemove} ng-click="vm.remove()">
                 <i className="fa fa-trash fa-lg" /> Remove
-                    </button>
+              </button>
+
               {hasChanges ? <i className="fa fa-asterisk fa-lg text-warning" /> : null}
             </div>
 
@@ -101,31 +128,31 @@ export default class SageEdit extends React.Component<Props, State> {
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Name</label>
                 <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="text" name="name" value={ inputValue(sage.name) } onChange={this._onFieldChange} server-error="vm.errors" />
+                  <input className="form-control" type="text" name="name" value={inputValue(sage.name)} onChange={this._onFieldChange} server-error="vm.errors" />
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Username</label>
                 <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="text" name="username" value={ inputValue(sage.username) } onChange={this._onFieldChange} server-error="vm.errors" />
+                  <input className="form-control" type="text" name="username" value={inputValue(sage.username)} onChange={this._onFieldChange} server-error="vm.errors" />
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Email</label>
                 <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="text" name="email" value={ inputValue(sage.email) } onChange={this._onFieldChange} server-error="vm.errors" />
+                  <input className="form-control" type="text" name="email" value={inputValue(sage.email)} onChange={this._onFieldChange} server-error="vm.errors" />
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Date of Birth</label>
                 <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="date" name="dateOfBirth" value={ dateValue(sage.dateOfBirth) } onChange={this._onFieldChange} server-error="vm.errors" />
-                  </div>
+                  <input className="form-control" type="date" name="dateOfBirth" value={dateValue(sage.dateOfBirth)} onChange={this._onFieldChange} server-error="vm.errors" />
+                </div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Sagacity</label>
                 <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="number" name="sagacity" value={ inputValue(sage.sagacity) } onChange={this._onFieldChange} server-error="vm.errors" />
+                  <input className="form-control" type="number" name="sagacity" value={inputValue(sage.sagacity)} onChange={this._onFieldChange} server-error="vm.errors" />
                 </div>
               </div>
             </div>

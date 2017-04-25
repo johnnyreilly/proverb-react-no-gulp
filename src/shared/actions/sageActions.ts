@@ -42,7 +42,7 @@ export function loadedSage(sage: Sage) {
 
 export function removeSage(id: number) {
   AppDispatcher.dispatch({ type: SageActionTypes.REMOVE_SAGE });
-  sageService.remove(id);
+  return sageService.remove(id);
 }
 
 export function removedSage(sageId: number) {
@@ -57,7 +57,7 @@ export function saveSage(sage: Sage) {
     type: SageActionTypes.SAVE_SAGE,
     payload: sage
   });
-  sageService.save(sage);
+  return sageService.save(sage);
 }
 
 export function savedSage(savedId: number) {

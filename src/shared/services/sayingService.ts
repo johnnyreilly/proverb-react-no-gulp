@@ -1,4 +1,4 @@
-import { getConnectionUrl, status, json, makeFormData } from "./connection";
+import { getConnectionUrl, status, json } from "./connection";
 import { Saying } from "../domain/dtos/saying";
 import { loadedSaying, loadedSayings, removedSaying, savedSaying, saveFailed } from "../actions/sayingActions";
 
@@ -25,7 +25,7 @@ export function remove(id: number) {
 }
 
 export function save(saying: Saying) {
-    return fetch(rootUrl, { method: "POST", body: makeFormData(saying) })
+    return fetch(rootUrl, { method: "POST", body: JSON.stringify(saying) })
         .then(status)
         .then(response => json<number>(response))
         .then(savedSaying)
