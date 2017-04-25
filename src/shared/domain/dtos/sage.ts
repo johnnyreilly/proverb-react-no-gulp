@@ -5,7 +5,7 @@ export interface Sage {
     name: string;
     username: string;
     email: string;
-    dateOfBirth: Date;
+    dateOfBirth: string;
     sagacity: number;
     sayings?: Saying[];
 }

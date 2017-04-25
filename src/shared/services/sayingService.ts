@@ -2,7 +2,7 @@ import { getConnectionUrl, status, json, makeFormData } from "./connection";
 import { Saying } from "../domain/dtos/saying";
 import { loadedSaying, loadedSayings, removedSaying, savedSaying, saveFailed } from "../actions/sayingActions";
 
-const rootUrl = getConnectionUrl + "saying";
+const rootUrl = getConnectionUrl() + "saying";
 
 export function getAll() {
     return fetch(rootUrl)

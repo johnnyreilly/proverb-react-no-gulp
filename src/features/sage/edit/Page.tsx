@@ -1,13 +1,12 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import FBEmitter from "fbemitter";
-import moment from "moment";
 
 import SageStore from "../../../shared/stores/SageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Loading from "../../../shared/components/Loading";
 import { Sage } from "../../../shared/domain/dtos/sage";
-import { inputValue } from "../../../shared/utils/componentHelpers";
+import { inputValue, dateValue } from "../../../shared/utils/componentHelpers";
 
 interface Props extends RouteComponentProps<{
   id: string;
@@ -119,12 +118,14 @@ export default class SageEdit extends React.Component<Props, State> {
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Date of Birth</label>
-                <div className="col-xs-12 col-sm-9">{moment(sage.dateOfBirth).format("ll")}</div>
+                <div className="col-xs-12 col-sm-9">
+                  <input className="form-control" type="date" name="dateOfBirth" value={ dateValue(sage.dateOfBirth) } onChange={this._onFieldChange} server-error="vm.errors" />
+                  </div>
               </div>
               <div className="form-group">
                 <label className="col-xs-12 col-sm-2">Sagacity</label>
                 <div className="col-xs-12 col-sm-9">
-                  <input className="form-control" type="text" name="sagacity" value={ inputValue(sage.sagacity) } onChange={this._onFieldChange} server-error="vm.errors" />
+                  <input className="form-control" type="number" name="sagacity" value={ inputValue(sage.sagacity) } onChange={this._onFieldChange} server-error="vm.errors" />
                 </div>
               </div>
             </div>
