@@ -5,7 +5,7 @@ import FBEmitter from "fbemitter";
 import SagesStore, { SagesState } from "./SagesStore";
 import * as SageActions from "../../shared/actions/sageActions";
 import SageThumbnail from "./SageThumbnail";
-import Loading from "../../shared/components/Loading";
+import Waiting from "../../shared/components/Waiting";
 
 interface Props extends RouteComponentProps<{
 }, {}> { }
@@ -44,7 +44,7 @@ export default class Sages extends React.Component<Props, SagesState> {
 
         {isInitialised
           ? [...sages.values()].map((sage, index) => <SageThumbnail key={index} sage={sage} />)
-          : <Loading />}
+          : <Waiting />}
       </div>
     );
   }

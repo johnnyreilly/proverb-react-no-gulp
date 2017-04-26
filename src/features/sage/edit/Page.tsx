@@ -4,7 +4,7 @@ import FBEmitter from "fbemitter";
 
 import SageStore, { SageState } from "../SageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
-import Loading from "../../../shared/components/Loading";
+import Waiting from "../../../shared/components/Waiting";
 import FormControls from "../../../shared/components/FormControls";
 import { Sage } from "../../../shared/domain/dtos/sage";
 import { inputValue, dateValue } from "../../../shared/utils/componentHelpers";
@@ -17,7 +17,7 @@ interface State {
   sage: Sage;
   validations: Map<string, string>;
   hasChanges: boolean;
-  isSavingOrRemoving: boolean;
+  isSavingOrRemoving: "Saving..." | "Removing...";
 }
 
 export default class SageEdit extends React.Component<Props, State> {
@@ -25,8 +25,8 @@ export default class SageEdit extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = Object.assign(
-      this.getSageAndValidationsFromStore(props.params.id, SageStore.getState()), 
-      { hasChanges: false, isSavingOrRemoving: false });
+      this.getSageAndValidationsFromStore(props.params.id, SageStore.getState()),
+      { hasChanges: false, isSavingOrRemoving: undefined });
   }
 
   _onChange = () => {
@@ -41,10 +41,10 @@ export default class SageEdit extends React.Component<Props, State> {
     }
   }
 
-  getSageAndValidationsFromStore(id: string, state: SageState) {
+  getSageAndValidationsFromStore(id: string, storeState: SageState) {
     const idNum = parseInt(id);
-    return state.sage && state.sage.id === idNum
-      ? { sage: state.sage, validations: state.validations }
+    return storeState.sage && storeState.sage.id === idNum
+      ? { sage: storeState.sage, validations: storeState.validations }
       : { sage: undefined, validations: new Map() };
   }
 
@@ -87,6 +87,10 @@ export default class SageEdit extends React.Component<Props, State> {
 
     if (this.canSave) {
       SageActions.saveSage(this.state.sage);
+      this.setState((prevState, _props) => Object.assign(
+        prevState,
+        { isSavingOrRemoving: "Saving..." }
+      ));
     }
   }
 
@@ -95,6 +99,10 @@ export default class SageEdit extends React.Component<Props, State> {
 
     if (this.canRemove) {
       SageActions.removeSage(this.state.sage.id);
+      this.setState((prevState, _props) => Object.assign(
+        prevState,
+        { isSavingOrRemoving: "Removing..." }
+      ));
     }
   }
 
@@ -107,17 +115,19 @@ export default class SageEdit extends React.Component<Props, State> {
   }
 
   get isSavingOrRemoving(): boolean {
-    return this.state.isSavingOrRemoving;
+    return !!this.state.isSavingOrRemoving;
   }
 
   render() {
-    const { sage, hasChanges, validations } = this.state;
+    const { sage, hasChanges, validations, isSavingOrRemoving } = this.state;
 
     return (
       <div className="container">
         {sage
           ? <form name="form" role="form">
             <div>
+              {isSavingOrRemoving ? <Waiting caption={ isSavingOrRemoving } /> : null}
+
               <button className="btn btn-info" disabled={!this.canSave} onClick={this._onClickSave}>
                 <i className="fa fa-save fa-lg" /> Save
               </button>
@@ -144,7 +154,7 @@ export default class SageEdit extends React.Component<Props, State> {
             </div>
           </form>
 
-          : <Loading />}
+          : <Waiting />}
       </div>
     );
   }

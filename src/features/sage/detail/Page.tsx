@@ -3,9 +3,9 @@ import { Link, RouteComponentProps } from "react-router";
 import FBEmitter from "fbemitter";
 import moment from "moment";
 
-import SageStore from "../SageStore";
+import SageStore, { SageState } from "../SageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
-import Loading from "../../../shared/components/Loading";
+import Waiting from "../../../shared/components/Waiting";
 import { Sage } from "../../../shared/domain/dtos/sage";
 import DetailControls from "../../../shared/components/DetailControls";
 
@@ -21,18 +21,17 @@ export default class SageDetail extends React.Component<Props, State> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
-    this.state = this.getSageFromStore(props.params.id);
+    this.state = this.getSageFromStore(props.params.id, SageStore.getState());
   }
 
   _onChange = () => {
     this.setState((prevState, props) => Object.assign(
       prevState,
-      this.getSageFromStore(props.params.id)
+      this.getSageFromStore(props.params.id, SageStore.getState())
     ));
   }
 
-  getSageFromStore(id: string) {
-    const state = SageStore.getState();
+  getSageFromStore(id: string, state: SageState) {
     const idNum = parseInt(id);
     return state.sage && state.sage.id === idNum
       ? { sage: state.sage }
@@ -89,7 +88,7 @@ export default class SageDetail extends React.Component<Props, State> {
             </div>
           </div>
 
-          : <Loading />}
+          : <Waiting />}
       </div>
     );
   }
