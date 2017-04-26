@@ -13,7 +13,8 @@ export const SageActionTypes = {
   SAVE_SAGE: "SageActionTypes.SAVE_SAGE",
   SAVED_SAGE: "SageActionTypes.SAVED_SAGE",
   SAVE_SAGE_FAILED: "SageActionTypes.SAVE_SAGE_FAILED",
-  CLEAR_VALIDATIONS: "SageActionTypes.CLEAR_VALIDATIONS"
+  CLEAR_VALIDATIONS: "SageActionTypes.CLEAR_VALIDATIONS",
+  CLEAR_SAVED_ID: "SageActionTypes.CLEAR_SAVED_ID"
 };
 
 export function loadSages() {
@@ -21,35 +22,14 @@ export function loadSages() {
   sageService.getAll();
 }
 
-export function loadedSages(sages: Sage[]) {
-  AppDispatcher.dispatch({
-    type: SageActionTypes.LOADED_SAGES,
-    payload: sages
-  });
-}
-
 export function loadSage(id: number) {
   AppDispatcher.dispatch({ type: SageActionTypes.LOAD_SAGE });
   sageService.getById(id);
 }
 
-export function loadedSage(sage: Sage) {
-  AppDispatcher.dispatch({
-    type: SageActionTypes.LOADED_SAGE,
-    payload: sage
-  });
-}
-
 export function removeSage(id: number) {
   AppDispatcher.dispatch({ type: SageActionTypes.REMOVE_SAGE });
   return sageService.remove(id);
-}
-
-export function removedSage(sageId: number) {
-  AppDispatcher.dispatch({
-    type: SageActionTypes.REMOVED_SAGE,
-    payload: sageId
-  });
 }
 
 export function saveSage(sage: Sage) {
@@ -60,22 +40,23 @@ export function saveSage(sage: Sage) {
   return sageService.save(sage);
 }
 
-export function savedSage(savedId: number) {
-  AppDispatcher.dispatch({
-    type: SageActionTypes.SAVED_SAGE,
-    payload: savedId
-  });
-}
+export const loadedSages = (sages: Sage[]) =>
+  AppDispatcher.dispatch({ type: SageActionTypes.LOADED_SAGES, payload: sages });
 
-export function saveFailed(validationMessages: ValidationMessages) {
-  AppDispatcher.dispatch({
-    type: SageActionTypes.SAVE_SAGE_FAILED,
-    payload: validationMessages
-  });
-}
+export const loadedSage = (sage: Sage) =>
+  AppDispatcher.dispatch({ type: SageActionTypes.LOADED_SAGE, payload: sage });
 
-export function clearValidations() {
-  AppDispatcher.dispatch({
-    type: SageActionTypes.CLEAR_VALIDATIONS
-  });
-}
+export const removedSage = (sageId: number) =>
+  AppDispatcher.dispatch({ type: SageActionTypes.REMOVED_SAGE, payload: sageId });
+
+export const savedSage = (savedId: number) =>
+  AppDispatcher.dispatch({ type: SageActionTypes.SAVED_SAGE, payload: savedId });
+
+export const saveFailed = (validationMessages: ValidationMessages) =>
+  AppDispatcher.dispatch({ type: SageActionTypes.SAVE_SAGE_FAILED, payload: validationMessages });
+
+export const clearValidations = () =>
+  AppDispatcher.dispatch({ type: SageActionTypes.CLEAR_VALIDATIONS });
+
+export const clearSavedId = () =>
+  AppDispatcher.dispatch({ type: SageActionTypes.CLEAR_SAVED_ID });

@@ -1,5 +1,5 @@
 {
-  "name": "proverb-angular",
+  "name": "proverb-react",
   "version": "1.0.0",
   "description": "Proverb is a simple app that stores the wise sayings of sages.  This is a collection of variations upon a the proverb theme.  Different versions of \"Proverb\" built using different technologies and techniques for kicks and giggles.  It's a playground for me.",
   "main": "/",
@@ -12,25 +12,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/johnnyreilly/proverb-angular.git"
+    "url": "https://github.com/johnnyreilly/proverb-react.git"
   },
   "author": "John Reilly",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/johnnyreilly/proverb-angular/issues"
+    "url": "https://github.com/johnnyreilly/proverb-react/issues"
   },
-  "homepage": "https://github.com/johnnyreilly/proverb-angular",
+  "homepage": "https://github.com/johnnyreilly/proverb-react",
   "devDependencies": {
     "@types/fbemitter": "^2.0.32",
-    "@types/flux": "0.0.32",
+    "@types/flux": "^0.0.32",
     "@types/history": "^2.0.39",
     "@types/jasmine": "^2.5.35",
     "@types/jquery": "^2.0.33",
     "@types/react": "^15.0.22",
     "@types/react-addons-test-utils": "^0.14.15",
-    "@types/react-bootstrap": "0.0.33",
+    "@types/react-bootstrap": "^0.0.33",
     "@types/react-dom": "^15.5.0",
-    "@types/react-router": "^2.0.38",
+    "@types/react-router": "^3.0.11",
     "@types/react-router-bootstrap": "0.0.27",
     "@types/toastr": "^2.1.30",
     "babel": "^6.0.0",
@@ -43,7 +43,6 @@
     "del": "^2.0.2",
     "eslint": "^3.6.0",
     "express": "^4.13.4",
-    "flux": "^2.1.1",
     "glob": "^7.1.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
@@ -86,6 +85,7 @@
     "bootstrap": "^3.3.7",
     "fbemitter": "^2.0.2",
     "font-awesome": "^4.6.3",
+    "flux": "^2.1.1",
     "jquery": "^3.1.1",
     "moment": "^2.15.1",
     "react": "^15.3.1",

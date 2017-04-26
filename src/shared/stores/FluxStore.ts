@@ -30,6 +30,11 @@ class FluxStore<TState> {
     this._changed = true;
   }
 
+  _updateStateAndEmit<K extends keyof TState>(updatedData: Pick<TState, K>) {
+    this._state = Object.assign({}, this._state, updatedData);
+    this.emitChange();
+  }
+
   hasChanged() { return this._changed; }
 
   addChangeListener(callback: () => void) {

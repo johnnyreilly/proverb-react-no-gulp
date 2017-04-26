@@ -2,7 +2,7 @@ import React from "react";
 import { RouteComponentProps } from "react-router";
 import FBEmitter from "fbemitter";
 
-import SageStore from "../SageStore";
+import SageStore, { SageState } from "../SageStore";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Loading from "../../../shared/components/Loading";
 import FormControls from "../../../shared/components/FormControls";
@@ -24,18 +24,24 @@ export default class SageEdit extends React.Component<Props, State> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
-    this.state = Object.assign(this.getSageAndValidationsFromStore(props.params.id), { hasChanges: false, isSavingOrRemoving: false });
+    this.state = Object.assign(
+      this.getSageAndValidationsFromStore(props.params.id, SageStore.getState()), 
+      { hasChanges: false, isSavingOrRemoving: false });
   }
 
   _onChange = () => {
-    this.setState((prevState, props) => Object.assign(
-      prevState,
-      this.getSageAndValidationsFromStore(props.params.id)
-    )); // TODO: Do something more sophisticated?
+    const state = SageStore.getState();
+    if (state.savedId) {
+      this.props.router.push(`/sage/detail/${this.props.params.id}`)
+    } else {
+      this.setState((prevState, props) => Object.assign(
+        prevState,
+        this.getSageAndValidationsFromStore(props.params.id, state)
+      )); // TODO: Do something more sophisticated?
+    }
   }
 
-  getSageAndValidationsFromStore(id: string) {
-    const state = SageStore.getState();
+  getSageAndValidationsFromStore(id: string, state: SageState) {
     const idNum = parseInt(id);
     return state.sage && state.sage.id === idNum
       ? { sage: state.sage, validations: state.validations }

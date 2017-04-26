@@ -10,13 +10,15 @@ import { ValidationMessages } from "../../shared/domain/saveResult";
 export interface SageState {
   sage: Sage;
   validations: Map<string, string>;
+  savedId: number;
 }
 
 class SageStore extends FluxStore<SageState> {
   constructor(dispatcher: Dispatcher<Action>) {
     super(dispatcher, () => ({
       sage: undefined,
-      validations: new Map()
+      validations: new Map(),
+      savedId: undefined
     }));
   }
 
@@ -24,39 +26,35 @@ class SageStore extends FluxStore<SageState> {
     return this._state;
   }
 
-  _updateSage = (updatedSage: Sage) => {
-    this._state = Object.assign({}, this._state, { sage: updatedSage });
-    this.emitChange();
-  }
-
-  _updateValidations = (updatedValidations: Map<string, string>) => {
-    this._state = Object.assign({}, this._state, { validations: updatedValidations });
-    this.emitChange();
-  }
-
   _onDispatch(action: Action) {
-    const updateSage = this._updateSage;
-    const updateValidations = this._updateValidations;
-
     switch (action.type) {
       case SageActionTypes.LOADED_SAGE:
         const sage = action.payload as Sage;
-        updateSage(sage);
+        this._updateStateAndEmit({ sage });
         break;
 
       case SageActionTypes.REMOVED_SAGE:
-        updateSage(null);
+        this._updateStateAndEmit({ sage: null });
+        break;
+
+      case SageActionTypes.SAVED_SAGE:
+        const savedId = action.payload as number;
+        this._updateStateAndEmit({ savedId });
         break;
 
       case SageActionTypes.SAVE_SAGE_FAILED:
         const validations = action.payload as ValidationMessages;
-        updateValidations(new Map([
+        this._updateStateAndEmit({ validations: new Map([
           ...Object.keys(validations.errors).map(error => [error, validations.errors[error].join()] as [string, string])
-        ]));
+        ]) });
         break;
 
       case SageActionTypes.CLEAR_VALIDATIONS:
-        updateValidations(new Map());
+        this._updateStateAndEmit({ validations: new Map() });
+        break;
+
+      case SageActionTypes.CLEAR_SAVED_ID:
+        this._updateStateAndEmit({ savedId: undefined });
         break;
     }
   }
