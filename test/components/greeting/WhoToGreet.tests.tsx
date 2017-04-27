@@ -1,5 +1,6 @@
 import React from "react";
-import * as TestUtils from "react-addons-test-utils";
+import * as TestUtils from "react-dom/test-utils";
+
 import WhoToGreet from "../../../src/features/Greeting/WhoToGreet";
 import * as GreetingActions from "../../../src/shared/actions/GreetingActions";
 
