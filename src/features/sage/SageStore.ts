@@ -8,9 +8,9 @@ import AppDispatcher from "../../shared/AppDispatcher";
 import { ValidationMessages } from "../../shared/domain/saveResult";
 
 export interface SageState {
-  sage: Sage;
+  sage: Sage | undefined;
   validations: Map<string, string>;
-  savedId: number;
+  savedId: number | undefined;
 }
 
 class SageStore extends FluxStore<SageState> {

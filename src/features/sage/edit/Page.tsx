@@ -9,15 +9,15 @@ import FormControls from "../../../shared/components/FormControls";
 import { Sage } from "../../../shared/domain/dtos/sage";
 import { inputValue, dateValue } from "../../../shared/utils/componentHelpers";
 
-interface Props extends RouteComponentProps<{
+type Props = RouteComponentProps<{
   id: string;
-}> { }
+}>;
 
 interface State {
-  sage: Sage;
+  sage: Sage | undefined;
   validations: Map<string, string>;
   hasChanges: boolean;
-  isSavingOrRemoving: "Saving..." | "Removing...";
+  isSavingOrRemoving: "Saving..." | "Removing..." | undefined;
 }
 
 export default class SageEdit extends React.Component<Props, State> {
@@ -87,7 +87,7 @@ export default class SageEdit extends React.Component<Props, State> {
     event.preventDefault();
 
     if (this.canSave) {
-      SageActions.saveSage(this.state.sage);
+      SageActions.saveSage(this.state.sage!);
       this.setState((prevState, _props) => Object.assign(
         prevState,
         { isSavingOrRemoving: "Saving..." }
@@ -99,7 +99,7 @@ export default class SageEdit extends React.Component<Props, State> {
     event.preventDefault();
 
     if (this.canRemove) {
-      SageActions.removeSage(this.state.sage.id);
+      SageActions.removeSage(this.state.sage!.id);
       this.setState((prevState, _props) => Object.assign(
         prevState,
         { isSavingOrRemoving: "Removing..." }

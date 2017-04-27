@@ -9,12 +9,12 @@ import Waiting from "../../../shared/components/Waiting";
 import { Sage } from "../../../shared/domain/dtos/sage";
 import DetailControls from "../../../shared/components/DetailControls";
 
-interface Props extends RouteComponentProps<{
+type Props = RouteComponentProps<{
   id: string;
-}> { }
+}>;
 
 interface State {
-  sage: Sage;
+  sage: Sage | undefined;
 }
 
 export default class SageDetail extends React.Component<Props, State> {

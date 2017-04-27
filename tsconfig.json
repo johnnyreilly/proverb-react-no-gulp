@@ -17,6 +17,7 @@
       "preserveConstEnums": true,
       "skipLibCheck": true,
       "suppressImplicitAnyIndexErrors": true,
+      "strictNullChecks": true,
       "sourceMap": true
    }
 }

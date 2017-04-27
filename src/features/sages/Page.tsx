@@ -7,7 +7,7 @@ import * as SageActions from "../../shared/actions/sageActions";
 import SageThumbnail from "./SageThumbnail";
 import Waiting from "../../shared/components/Waiting";
 
-interface Props extends RouteComponentProps<{}> { }
+type Props = RouteComponentProps<{}>;
 
 export default class Sages extends React.Component<Props, SagesState> {
   eventSubscription: FBEmitter.EventSubscription;
