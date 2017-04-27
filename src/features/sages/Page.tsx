@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import FBEmitter from "fbemitter";
 
 import SagesStore, { SagesState } from "./SagesStore";
@@ -7,8 +7,7 @@ import * as SageActions from "../../shared/actions/sageActions";
 import SageThumbnail from "./SageThumbnail";
 import Waiting from "../../shared/components/Waiting";
 
-interface Props extends RouteComponentProps<{
-}, {}> { }
+interface Props extends RouteComponentProps<{}> { }
 
 export default class Sages extends React.Component<Props, SagesState> {
   eventSubscription: FBEmitter.EventSubscription;

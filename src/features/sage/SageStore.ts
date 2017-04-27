@@ -30,16 +30,20 @@ class SageStore extends FluxStore<SageState> {
     switch (action.type) {
       case SageActionTypes.LOADED_SAGE:
         const sage = action.payload as Sage;
-        this._updateStateAndEmit({ sage });
+        this._updateStateAndEmit({ sage, savedId: undefined, validations: new Map() });
         break;
 
       case SageActionTypes.REMOVED_SAGE:
-        this._updateStateAndEmit({ sage: null });
+        this._updateStateAndEmit({ sage: undefined, savedId: undefined, validations: new Map() });
+        break;
+
+      case SageActionTypes.SAVE_SAGE:
+        this._updateStateAndEmit({ validations: new Map(), savedId: undefined });
         break;
 
       case SageActionTypes.SAVED_SAGE:
         const savedId = action.payload as number;
-        this._updateStateAndEmit({ savedId });
+        this._updateStateAndEmit({ savedId, validations: new Map() });
         break;
 
       case SageActionTypes.SAVE_SAGE_FAILED:
@@ -47,14 +51,6 @@ class SageStore extends FluxStore<SageState> {
         this._updateStateAndEmit({ validations: new Map([
           ...Object.keys(validations.errors).map(error => [error, validations.errors[error].join()] as [string, string])
         ]) });
-        break;
-
-      case SageActionTypes.CLEAR_VALIDATIONS:
-        this._updateStateAndEmit({ validations: new Map() });
-        break;
-
-      case SageActionTypes.CLEAR_SAVED_ID:
-        this._updateStateAndEmit({ savedId: undefined });
         break;
     }
   }

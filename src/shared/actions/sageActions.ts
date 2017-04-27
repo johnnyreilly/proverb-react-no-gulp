@@ -12,9 +12,7 @@ export const SageActionTypes = {
   REMOVED_SAGE: "SageActionTypes.REMOVED_SAGE",
   SAVE_SAGE: "SageActionTypes.SAVE_SAGE",
   SAVED_SAGE: "SageActionTypes.SAVED_SAGE",
-  SAVE_SAGE_FAILED: "SageActionTypes.SAVE_SAGE_FAILED",
-  CLEAR_VALIDATIONS: "SageActionTypes.CLEAR_VALIDATIONS",
-  CLEAR_SAVED_ID: "SageActionTypes.CLEAR_SAVED_ID"
+  SAVE_SAGE_FAILED: "SageActionTypes.SAVE_SAGE_FAILED"
 };
 
 export function loadSages() {
@@ -54,9 +52,3 @@ export const savedSage = (savedId: number) =>
 
 export const saveFailed = (validationMessages: ValidationMessages) =>
   AppDispatcher.dispatch({ type: SageActionTypes.SAVE_SAGE_FAILED, payload: validationMessages });
-
-export const clearValidations = () =>
-  AppDispatcher.dispatch({ type: SageActionTypes.CLEAR_VALIDATIONS });
-
-export const clearSavedId = () =>
-  AppDispatcher.dispatch({ type: SageActionTypes.CLEAR_SAVED_ID });

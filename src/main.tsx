@@ -1,14 +1,14 @@
 import "babel-polyfill";
 import * as React from "react";
 import ReactDOM from "react-dom";
-import { Router, hashHistory } from "react-router";
+import { HashRouter } from "react-router-dom";
 
-import { getRoutes } from "./Routes";
+import App from "./features/layout/App";
 
 // __CONNECTION_URL__: JSON.stringify('http://localhost:7778/')
 
 ReactDOM.render((
-  <Router history={hashHistory}>
-    { getRoutes() }
-  </Router>
+  <HashRouter>
+    <App />
+  </HashRouter>
 ), document.getElementById("content"));

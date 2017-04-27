@@ -1,15 +1,10 @@
 import * as React from "react";
-import { Link, PlainRoute } from "react-router";
+import { Link } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
-interface Props {
-  path: string;
-  routes: PlainRoute[];
-}
-
-const TopNav: React.StatelessComponent<Props> = ({ path }) => {
-  return (<Navbar bsStyle="default">
+const TopNav: React.SFC<void> = _ =>
+  <Navbar bsStyle="default">
     <Navbar.Header>
       <Navbar.Brand>
         <Link to="/"><span className="brand-title">Proverb</span></Link>
@@ -17,10 +12,7 @@ const TopNav: React.StatelessComponent<Props> = ({ path }) => {
       <Navbar.Toggle />
     </Navbar.Header>
     <Navbar.Collapse>
-      <Nav activeHref={ path }>
-        <LinkContainer to="/dashboard">
-          <NavItem eventKey={0}><i className="fa fa-dashboard" /> Dashboard</NavItem>
-        </LinkContainer>
+      <Nav>
         <LinkContainer to="/sages">
           <NavItem eventKey={1}><i className="fa fa-users" /> Sages</NavItem>
         </LinkContainer>
@@ -34,8 +26,6 @@ const TopNav: React.StatelessComponent<Props> = ({ path }) => {
         </LinkContainer>
       </Nav>
     </Navbar.Collapse>
-  </Navbar>
-  );
-};
+  </Navbar>;
 
 export default TopNav;

@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps } from "react-router-dom";
 import FBEmitter from "fbemitter";
 
 import SageStore, { SageState } from "../SageStore";
@@ -11,7 +11,7 @@ import { inputValue, dateValue } from "../../../shared/utils/componentHelpers";
 
 interface Props extends RouteComponentProps<{
   id: string;
-}, {}> { }
+}> { }
 
 interface State {
   sage: Sage;
@@ -25,18 +25,19 @@ export default class SageEdit extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = Object.assign(
-      this.getSageAndValidationsFromStore(props.params.id, SageStore.getState()),
+      this.getSageAndValidationsFromStore(props.match.params.id, SageStore.getState()),
       { hasChanges: false, isSavingOrRemoving: undefined });
   }
 
   _onChange = () => {
     const state = SageStore.getState();
     if (state.savedId) {
-      this.props.router.push(`/sage/detail/${this.props.params.id}`)
+      this.props.history.push(`/sage/detail/${this.props.match.params.id}`);
     } else {
       this.setState((prevState, props) => Object.assign(
         prevState,
-        this.getSageAndValidationsFromStore(props.params.id, state)
+        this.getSageAndValidationsFromStore(props.match.params.id, state),
+        { isSavingOrRemoving: undefined }
       )); // TODO: Do something more sophisticated?
     }
   }
@@ -58,13 +59,13 @@ export default class SageEdit extends React.Component<Props, State> {
 
   componentDidMount() {
     if (!this.state.sage) {
-      this.loadSage(this.props.params.id);
+      this.loadSage(this.props.match.params.id);
     }
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.params.id !== nextProps.params.id) {
-      this.loadSage(nextProps.params.id);
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      this.loadSage(nextProps.match.params.id);
     }
   }
 
@@ -126,13 +127,13 @@ export default class SageEdit extends React.Component<Props, State> {
         {sage
           ? <form name="form" role="form">
             <div>
-              {isSavingOrRemoving ? <Waiting caption={ isSavingOrRemoving } /> : null}
+              {isSavingOrRemoving ? <Waiting caption={isSavingOrRemoving} /> : null}
 
               <button className="btn btn-info" disabled={!this.canSave} onClick={this._onClickSave}>
                 <i className="fa fa-save fa-lg" /> Save
               </button>
 
-              <button className="btn btn-danger" disabled={!this.canRemove} ng-click="vm.remove()">
+              <button className="btn btn-danger" disabled={!this.canRemove} onClick={this._onClickRemove}>
                 <i className="fa fa-trash fa-lg" /> Remove
               </button>
 
