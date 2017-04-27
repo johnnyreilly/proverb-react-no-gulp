@@ -8,9 +8,7 @@ import SageDetail from "../sage/detail/Page";
 import SageEdit from "../sage/edit/Page";
 import About from "../about/Page";
 
-interface Props { }
-
-const App: React.SFC<Props> = _props =>
+const App: React.SFC<any> = _props => (
   <div>
     <TopNav />
 
@@ -22,6 +20,7 @@ const App: React.SFC<Props> = _props =>
       <Route path="/sayings" component={Greeting} />
       <Route path="/about" component={About} />
     </Switch>
-  </div>;
+  </div>
+);
 
 export default App;

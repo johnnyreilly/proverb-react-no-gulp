@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
-const TopNav: React.SFC<void> = _ =>
+const TopNav: React.SFC<any> = _ =>
   <Navbar bsStyle="default">
     <Navbar.Header>
       <Navbar.Brand>

@@ -10,7 +10,7 @@ export function json<T>(response: Response) {
     return response.json() as Promise<T>;
 }
 
-export function makeFormData(payload: Object) {
+export function makeFormData<T extends {}>(payload: T) {
     const data = new FormData();
     data.append("json", JSON.stringify(payload));
     return data;

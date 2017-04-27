@@ -4,6 +4,7 @@
         "tslint-react"
     ],
     "rules": {
+        "arrow-parens": false,
         "class-name": true,
         "comment-format": [
             true,
@@ -16,10 +17,12 @@
         "interface-name": [false],
         "jsx-alignment": false,
         "jsx-no-lambda": true,
+        "jsx-wrap-multiline": false,
         "jsx-no-multiline-js": false,
         "jsx-no-string-ref": true,
         "jsx-self-close": true,
         "jsx-curly-spacing": "always",
+        "jsx-boolean-value": false,
         "max-line-length": [false],
         "member-access": false,
         "no-duplicate-variable": true,
