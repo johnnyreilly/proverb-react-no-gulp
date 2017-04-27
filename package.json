@@ -22,7 +22,7 @@
   "homepage": "https://github.com/johnnyreilly/proverb-react",
   "devDependencies": {
     "@types/fbemitter": "^2.0.32",
-    "@types/flux": "^0.0.32",
+    "@types/flux": "^3.0.1",
     "@types/jasmine": "^2.5.35",
     "@types/jquery": "^2.0.33",
     "@types/react": "^15.0.22",
@@ -82,7 +82,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "fbemitter": "^2.0.2",
-    "flux": "^2.1.1",
+    "flux": "^3.1.2",
     "font-awesome": "^4.6.3",
     "jquery": "^3.1.1",
     "moment": "^2.15.1",
