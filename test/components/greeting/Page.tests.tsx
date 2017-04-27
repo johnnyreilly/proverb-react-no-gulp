@@ -1,5 +1,5 @@
 import React from "react";
-import * as TestUtils from "react-dom/test-utils";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import App from "../../../src/features/greeting/Page";
 import WhoToGreet from "../../../src/features/greeting/WhoToGreet";
@@ -24,7 +24,7 @@ describe("App", () => {
   });
 
   function render(state: GreetingState) {
-    const shallowRenderer = TestUtils.createRenderer();
+    const shallowRenderer = createRenderer();
     spyOn(GreetingStore, "getState").and.returnValue(state);
 
     shallowRenderer.render(<App />);

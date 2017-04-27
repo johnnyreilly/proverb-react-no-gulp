@@ -1,5 +1,5 @@
 import React from "react";
-import * as TestUtils from "react-dom/test-utils";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import Greeting from "../../../src/features/greeting/Greeting";
 import * as GreetingActions from "../../../src/shared/actions/GreetingActions";
@@ -47,7 +47,7 @@ describe("Greeting", () => {
   });
 
   function render({ targetOfGreeting }: { targetOfGreeting: string; }) {
-    const shallowRenderer = TestUtils.createRenderer();
+    const shallowRenderer = createRenderer();
     shallowRenderer.render(<Greeting key={ 0 } targetOfGreeting={ targetOfGreeting } />);
     return shallowRenderer.getRenderOutput();
   }
