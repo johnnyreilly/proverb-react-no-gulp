@@ -151,7 +151,7 @@ export default class SageEdit extends React.Component<Props, State> {
 
               <FormControls label="Date of Birth" name="dateOfBirth" type="date" value={dateValue(sage.dateOfBirth)} onFieldChange={this._onFieldChange} errors={validations} />
 
-              <FormControls label="Sagacity" name="sagacity" value={inputValue(sage.sagacity)} onFieldChange={this._onFieldChange} errors={validations} />
+              <FormControls label="Sagacity" name="sagacity" type="number" value={inputValue(sage.sagacity)} onFieldChange={this._onFieldChange} errors={validations} />
             </div>
           </form>
 
