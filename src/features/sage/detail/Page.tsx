@@ -14,7 +14,7 @@ type Props = RouteComponentProps<{
 }>;
 
 interface State {
-  sage: Sage;
+  sage: Sage | undefined;
 }
 
 export default class SageDetail extends React.Component<Props, State> {

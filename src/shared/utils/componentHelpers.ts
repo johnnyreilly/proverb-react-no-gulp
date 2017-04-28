@@ -3,5 +3,5 @@ export function inputValue(value: string | number) {
 }
 
 export function dateValue(value: string) {
-    return value ? `${value.substr(0,10)}` : "";
+    return value ? `${value.substr(0, 10)}` : "";
 }
