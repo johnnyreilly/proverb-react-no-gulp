@@ -2,16 +2,16 @@ import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import FBEmitter from "fbemitter";
 
-import SageStore, { SageState } from "../SageStore";
+import SageStore, { SageState } from "../Store";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Waiting from "../../../shared/components/Waiting";
 import FormControls from "../../../shared/components/FormControls";
 import { Sage } from "../../../shared/domain/dtos/sage";
 import { inputValue, dateValue } from "../../../shared/utils/componentHelpers";
 
-interface Props extends RouteComponentProps<{
+type Props = RouteComponentProps<{
   id: string;
-}> { }
+}>;
 
 interface State {
   sage: Sage;

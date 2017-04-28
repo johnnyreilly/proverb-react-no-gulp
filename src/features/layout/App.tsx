@@ -6,6 +6,7 @@ import Greeting from "../greeting/Page";
 import Sages from "../sages/Page";
 import SageDetail from "../sage/detail/Page";
 import SageEdit from "../sage/edit/Page";
+import Sayings from "../sayings/Page";
 import About from "../about/Page";
 
 const App: React.SFC<any> = _props => (
@@ -17,7 +18,7 @@ const App: React.SFC<any> = _props => (
       <Route path="/sages" component={Sages} />
       <Route path="/sage/detail/:id" component={SageDetail} />
       <Route path="/sage/edit/:id" component={SageEdit} />
-      <Route path="/sayings" component={Greeting} />
+      <Route path="/sayings" component={Sayings} />
       <Route path="/about" component={About} />
     </Switch>
   </div>

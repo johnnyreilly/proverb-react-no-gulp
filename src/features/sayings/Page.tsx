@@ -2,22 +2,22 @@ import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import FBEmitter from "fbemitter";
 
-import SagesStore, { SagesState } from "./Store";
-import * as SageActions from "../../shared/actions/sageActions";
-import SageThumbnail from "./SageThumbnail";
+import SayingsStore, { SayingsState } from "./Store";
+import * as SayingActions from "../../shared/actions/sayingActions";
+import SayingComponent from "./Saying";
 import Waiting from "../../shared/components/Waiting";
 
 type Props = RouteComponentProps<{}>;
 
-export default class Sages extends React.Component<Props, SagesState> {
+export default class Sayings extends React.Component<Props, SayingsState> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
-    this.state = SagesStore.getState();
+    this.state = SayingsStore.getState();
   }
 
   componentWillMount() {
-    this.eventSubscription = SagesStore.addChangeListener(this._onChange);
+    this.eventSubscription = SayingsStore.addChangeListener(this._onChange);
   }
 
   componentWillUnmount() {
@@ -25,24 +25,24 @@ export default class Sages extends React.Component<Props, SagesState> {
   }
 
   _onChange = () => {
-    this.setState(SagesStore.getState());
+    this.setState(SayingsStore.getState());
   }
 
   componentDidMount() {
     if (!this.state.isInitialised) {
-      SageActions.loadSages();
+      SayingActions.loadSayings();
     }
   }
 
   render() {
-    const { isInitialised, sages } = this.state;
+    const { isInitialised, sayings } = this.state;
 
     return (
       <div className="container">
-        <h2>Sages</h2>
+        <h2>Sayings</h2>
 
         {isInitialised
-          ? [...sages.values()].map((sage, index) => <SageThumbnail key={index} sage={sage} />)
+          ? [...sayings.values()].map((saying, index) => <SayingComponent key={index} saying={saying} />)
           : <Waiting />}
       </div>
     );

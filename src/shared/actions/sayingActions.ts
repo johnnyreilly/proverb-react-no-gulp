@@ -1,55 +1,54 @@
 import AppDispatcher from "../AppDispatcher";
 import { Saying } from "../domain/dtos/saying";
+import * as sayingService from "../services/sayingService";
 import { ValidationMessages } from "../domain/saveResult";
 
-const SayingActionTypes = {
-  LOAD_SAYINGS: "SayingActionTypes.LOAD_SAYINGS",
+export const SayingActionTypes = {
+  LOADING_SAYINGS: "SayingActionTypes.LOADING_SAYINGS",
   LOADED_SAYINGS: "SayingActionTypes.LOADED_SAYINGS",
   LOAD_SAYING: "SayingActionTypes.LOAD_SAYING",
   LOADED_SAYING: "SayingActionTypes.LOADED_SAYING",
+  REMOVE_SAYING: "SayingActionTypes.REMOVE_SAYING",
   REMOVED_SAYING: "SayingActionTypes.REMOVED_SAYING",
+  SAVE_SAYING: "SayingActionTypes.SAVE_SAYING",
   SAVED_SAYING: "SayingActionTypes.SAVED_SAYING",
-  SAVE_FAILED: "SayingActionTypes.SAVE_FAILED"
+  SAVE_SAYING_FAILED: "SayingActionTypes.SAVE_SAYING_FAILED"
 };
 
-export function loadedSayings(sayings: Saying[]) {
-  AppDispatcher.dispatch({
-    type: SayingActionTypes.LOADED_SAYINGS,
-    payload: sayings
-  });
+export function loadSayings() {
+  AppDispatcher.dispatch({ type: SayingActionTypes.LOADING_SAYINGS });
+  sayingService.getAll();
 }
 
-export function loadSaying(savedId: number) {
-  AppDispatcher.dispatch({
-    type: SayingActionTypes.LOAD_SAYING,
-    payload: savedId
-  });
+export function loadSaying(id: number) {
+  AppDispatcher.dispatch({ type: SayingActionTypes.LOAD_SAYING });
+  sayingService.getById(id);
 }
 
-export function loadedSaying(saying: Saying) {
+export function removeSaying(id: number) {
+  AppDispatcher.dispatch({ type: SayingActionTypes.REMOVE_SAYING });
+  return sayingService.remove(id);
+}
+
+export function saveSaying(saying: Saying) {
   AppDispatcher.dispatch({
-    type: SayingActionTypes.LOADED_SAYING,
+    type: SayingActionTypes.SAVE_SAYING,
     payload: saying
   });
+  return sayingService.save(saying);
 }
 
-export function removedSaying(sayingId: number) {
-  AppDispatcher.dispatch({
-    type: SayingActionTypes.REMOVED_SAYING,
-    payload: sayingId
-  });
-}
+export const loadedSayings = (sayings: Saying[]) =>
+  AppDispatcher.dispatch({ type: SayingActionTypes.LOADED_SAYINGS, payload: sayings });
 
-export function savedSaying(savedId: number) {
-  AppDispatcher.dispatch({
-    type: SayingActionTypes.SAVED_SAYING,
-    payload: savedId
-  });
-}
+export const loadedSaying = (saying: Saying) =>
+  AppDispatcher.dispatch({ type: SayingActionTypes.LOADED_SAYING, payload: saying });
 
-export function saveFailed(validationMessages: ValidationMessages) {
-  AppDispatcher.dispatch({
-    type: SayingActionTypes.SAVE_FAILED,
-    payload: validationMessages
-  });
-}
+export const removedSaying = (sayingId: number) =>
+  AppDispatcher.dispatch({ type: SayingActionTypes.REMOVED_SAYING, payload: sayingId });
+
+export const savedSaying = (savedId: number) =>
+  AppDispatcher.dispatch({ type: SayingActionTypes.SAVED_SAYING, payload: savedId });
+
+export const saveFailed = (validationMessayings: ValidationMessages) =>
+  AppDispatcher.dispatch({ type: SayingActionTypes.SAVE_SAYING_FAILED, payload: validationMessayings });

@@ -3,15 +3,15 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import FBEmitter from "fbemitter";
 import moment from "moment";
 
-import SageStore, { SageState } from "../SageStore";
+import SageStore, { SageState } from "../Store";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Waiting from "../../../shared/components/Waiting";
 import { Sage } from "../../../shared/domain/dtos/sage";
 import DetailControls from "../../../shared/components/DetailControls";
 
-interface Props extends RouteComponentProps<{
+type Props = RouteComponentProps<{
   id: string;
-}> { }
+}>;
 
 interface State {
   sage: Sage;

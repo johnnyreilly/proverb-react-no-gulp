@@ -1,4 +1,5 @@
-import { getConnectionUrl, status, json } from "./connection";
+import { getConnectionUrl, status, json, jsonHeaders } from "./connection";
+import { SaveResult } from "../domain/saveResult";
 import { Saying } from "../domain/dtos/saying";
 import { loadedSaying, loadedSayings, removedSaying, savedSaying, saveFailed } from "../actions/sayingActions";
 
@@ -25,9 +26,15 @@ export function remove(id: number) {
 }
 
 export function save(saying: Saying) {
-    return fetch(rootUrl, { method: "POST", body: JSON.stringify(saying) })
+    return fetch(rootUrl, { headers: jsonHeaders, method: "POST", body: JSON.stringify(saying) })
         .then(status)
-        .then(response => json<number>(response))
-        .then(savedSaying)
-        .catch(saveFailed);
+        .then(response => json<SaveResult>(response))
+        .then(saveResult => {
+            if (saveResult.isSaved) {
+                savedSaying(saveResult.savedId);
+            } else {
+                saveFailed(saveResult.validations);
+            }
+        })
+        .catch(saveFailed); // TODO: this wouldn't actually receive validations; probably should be separate action
 }
