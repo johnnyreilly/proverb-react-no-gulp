@@ -25,7 +25,7 @@ export default class Sages extends React.Component<Props, SagesState> {
   }
 
   _onChange = () => {
-    this.setState(SagesStore.getState());
+    this.setState((prevState, _props) => Object.assign(prevState, SagesStore.getState()));
   }
 
   componentDidMount() {

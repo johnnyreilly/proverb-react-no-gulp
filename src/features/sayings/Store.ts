@@ -1,7 +1,9 @@
 import { Dispatcher } from "flux";
 
+import SagesStore from "../sages/Store";
 import FluxStore from "../../shared/stores/FluxStore";
 import { SayingActionTypes } from "../../shared/actions/sayingActions";
+import { SageActionTypes } from "../../shared/actions/sageActions";
 import { Action } from "../../shared/domain/action";
 import { SayingVM } from "../../shared/domain/dtos/saying";
 import AppDispatcher from "../../shared/AppDispatcher";
@@ -15,13 +17,17 @@ class SayingsStore extends FluxStore<SayingsState> {
   constructor(dispatcher: Dispatcher<Action>) {
     super(dispatcher, () => ({
       sayings: new Map(),
-      validations: new Map(),
       isInitialised: false
     }));
   }
 
   getState() {
-    return this._state;
+    const sagesState = SagesStore.getState();
+
+    return {
+      sayingsState: this._state,
+      sagesState
+    };
   }
 
   _updateSayings = (updatedSayings: Map<number, SayingVM>) => {
@@ -36,6 +42,11 @@ class SayingsStore extends FluxStore<SayingsState> {
       case SayingActionTypes.LOADED_SAYINGS:
         const sayings = action.payload as SayingVM[];
         updateSayings(new Map([...sayings.map(saying => [saying.id, saying] as [number, SayingVM])]));
+        break;
+
+      case SageActionTypes.LOADED_SAGES:
+        AppDispatcher.waitFor([SagesStore.dispatchToken]);
+        this.emitChange();
         break;
     }
   }

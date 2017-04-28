@@ -15,7 +15,6 @@ class SagesStore extends FluxStore<SagesState> {
   constructor(dispatcher: Dispatcher<Action>) {
     super(dispatcher, () => ({
       sages: new Map(),
-      validations: new Map(),
       isInitialised: false
     }));
   }
