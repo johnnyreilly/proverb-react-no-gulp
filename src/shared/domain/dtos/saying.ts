@@ -1,8 +1,6 @@
-import { Sage } from "./Sage";
-
-export interface Saying {
+export interface SayingVM {
     id: number;
-    sageId: number;
-    sage?: Sage;
     text: string;
+    sageId: number;
+    sageName: string;
 }

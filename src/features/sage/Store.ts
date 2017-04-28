@@ -3,12 +3,12 @@ import { Dispatcher } from "flux";
 import FluxStore from "../../shared/stores/FluxStore";
 import { SageActionTypes } from "../../shared/actions/sageActions";
 import { Action } from "../../shared/domain/action";
-import { Sage } from "../../shared/domain/dtos/sage";
+import { SageVM } from "../../shared/domain/dtos/sage";
 import AppDispatcher from "../../shared/AppDispatcher";
 import { ValidationMessages } from "../../shared/domain/saveResult";
 
 export interface SageState {
-  sage: Sage | undefined;
+  sage: SageVM | undefined;
   validations: Map<string, string>;
   savedId: number | undefined;
 }
@@ -29,7 +29,7 @@ class SageStore extends FluxStore<SageState> {
   _onDispatch(action: Action) {
     switch (action.type) {
       case SageActionTypes.LOADED_SAGE:
-        const sage = action.payload as Sage;
+        const sage = action.payload as SageVM;
         this._updateStateAndEmit({ sage, savedId: undefined, validations: new Map() });
         break;
 

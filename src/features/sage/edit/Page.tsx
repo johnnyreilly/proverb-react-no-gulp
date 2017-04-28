@@ -6,7 +6,7 @@ import SageStore, { SageState } from "../Store";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Waiting from "../../../shared/components/Waiting";
 import FormControls from "../../../shared/components/FormControls";
-import { Sage } from "../../../shared/domain/dtos/sage";
+import { SageVM } from "../../../shared/domain/dtos/sage";
 import { inputValue, dateValue } from "../../../shared/utils/componentHelpers";
 
 type Props = RouteComponentProps<{
@@ -14,7 +14,7 @@ type Props = RouteComponentProps<{
 }>;
 
 interface State {
-  sage: Sage | undefined;
+  sage: SageVM | undefined;
   validations: Map<string, string>;
   hasChanges: boolean;
   isSavingOrRemoving: "Saving..." | "Removing..." | undefined;

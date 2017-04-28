@@ -1,5 +1,5 @@
 import AppDispatcher from "../AppDispatcher";
-import { Sage } from "../domain/dtos/sage";
+import { SageVM } from "../domain/dtos/sage";
 import * as sageService from "../services/sageService";
 import { ValidationMessages } from "../domain/saveResult";
 
@@ -30,7 +30,7 @@ export function removeSage(id: number) {
   return sageService.remove(id);
 }
 
-export function saveSage(sage: Sage) {
+export function saveSage(sage: SageVM) {
   AppDispatcher.dispatch({
     type: SageActionTypes.SAVE_SAGE,
     payload: sage
@@ -38,10 +38,10 @@ export function saveSage(sage: Sage) {
   return sageService.save(sage);
 }
 
-export const loadedSages = (sages: Sage[]) =>
+export const loadedSages = (sages: SageVM[]) =>
   AppDispatcher.dispatch({ type: SageActionTypes.LOADED_SAGES, payload: sages });
 
-export const loadedSage = (sage: Sage) =>
+export const loadedSage = (sage: SageVM) =>
   AppDispatcher.dispatch({ type: SageActionTypes.LOADED_SAGE, payload: sage });
 
 export const removedSage = (sageId: number) =>

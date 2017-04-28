@@ -3,11 +3,11 @@ import { Dispatcher } from "flux";
 import FluxStore from "../../shared/stores/FluxStore";
 import { SageActionTypes } from "../../shared/actions/sageActions";
 import { Action } from "../../shared/domain/action";
-import { Sage } from "../../shared/domain/dtos/sage";
+import { SageVM } from "../../shared/domain/dtos/sage";
 import AppDispatcher from "../../shared/AppDispatcher";
 
 export interface SagesState {
-  sages: Map<number, Sage>;
+  sages: Map<number, SageVM>;
   isInitialised: boolean;
 }
 
@@ -24,7 +24,7 @@ class SagesStore extends FluxStore<SagesState> {
     return this._state;
   }
 
-  _updateSages = (updatedSages: Map<number, Sage>) => {
+  _updateSages = (updatedSages: Map<number, SageVM>) => {
     this._state = Object.assign({}, this._state, { sages: updatedSages, isInitialised: true });
     this.emitChange();
   }
@@ -34,8 +34,8 @@ class SagesStore extends FluxStore<SagesState> {
 
     switch (action.type) {
       case SageActionTypes.LOADED_SAGES:
-        const sages = action.payload as Sage[];
-        updateSages(new Map([...sages.map(sage => [sage.id, sage] as [number, Sage])]));
+        const sages = action.payload as SageVM[];
+        updateSages(new Map([...sages.map(sage => [sage.id, sage] as [number, SageVM])]));
         break;
     }
   }

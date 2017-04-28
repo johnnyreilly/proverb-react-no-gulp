@@ -6,7 +6,7 @@ import moment from "moment";
 import SageStore, { SageState } from "../Store";
 import * as SageActions from "../../../shared/actions/sageActions";
 import Waiting from "../../../shared/components/Waiting";
-import { Sage } from "../../../shared/domain/dtos/sage";
+import { SageVM } from "../../../shared/domain/dtos/sage";
 import DetailControls from "../../../shared/components/DetailControls";
 
 type Props = RouteComponentProps<{
@@ -14,7 +14,7 @@ type Props = RouteComponentProps<{
 }>;
 
 interface State {
-  sage: Sage | undefined;
+  sage: SageVM | undefined;
 }
 
 export default class SageDetail extends React.Component<Props, State> {

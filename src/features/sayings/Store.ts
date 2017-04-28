@@ -3,11 +3,11 @@ import { Dispatcher } from "flux";
 import FluxStore from "../../shared/stores/FluxStore";
 import { SayingActionTypes } from "../../shared/actions/sayingActions";
 import { Action } from "../../shared/domain/action";
-import { Saying } from "../../shared/domain/dtos/saying";
+import { SayingVM } from "../../shared/domain/dtos/saying";
 import AppDispatcher from "../../shared/AppDispatcher";
 
 export interface SayingsState {
-  sayings: Map<number, Saying>;
+  sayings: Map<number, SayingVM>;
   isInitialised: boolean;
 }
 
@@ -24,7 +24,7 @@ class SayingsStore extends FluxStore<SayingsState> {
     return this._state;
   }
 
-  _updateSayings = (updatedSayings: Map<number, Saying>) => {
+  _updateSayings = (updatedSayings: Map<number, SayingVM>) => {
     this._state = Object.assign({}, this._state, { sayings: updatedSayings, isInitialised: true });
     this.emitChange();
   }
@@ -34,8 +34,8 @@ class SayingsStore extends FluxStore<SayingsState> {
 
     switch (action.type) {
       case SayingActionTypes.LOADED_SAYINGS:
-        const sayings = action.payload as Saying[];
-        updateSayings(new Map([...sayings.map(saying => [saying.id, saying] as [number, Saying])]));
+        const sayings = action.payload as SayingVM[];
+        updateSayings(new Map([...sayings.map(saying => [saying.id, saying] as [number, SayingVM])]));
         break;
     }
   }

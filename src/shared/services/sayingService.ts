@@ -1,6 +1,6 @@
 import { getConnectionUrl, status, json, jsonHeaders } from "./connection";
 import { SaveResult } from "../domain/saveResult";
-import { Saying } from "../domain/dtos/saying";
+import { SayingVM } from "../domain/dtos/saying";
 import { loadedSaying, loadedSayings, removedSaying, savedSaying, saveFailed } from "../actions/sayingActions";
 
 const rootUrl = getConnectionUrl() + "saying";
@@ -8,14 +8,14 @@ const rootUrl = getConnectionUrl() + "saying";
 export function getAll() {
     return fetch(rootUrl)
         .then(status)
-        .then(response => json<Saying[]>(response))
+        .then(response => json<SayingVM[]>(response))
         .then(loadedSayings);
 }
 
 export function getById(id: number) {
     return fetch(`${rootUrl}/${id}`)
         .then(status)
-        .then(response => json<Saying>(response))
+        .then(response => json<SayingVM>(response))
         .then(loadedSaying);
 }
 
@@ -25,7 +25,7 @@ export function remove(id: number) {
         .then(_ => removedSaying(id));
 }
 
-export function save(saying: Saying) {
+export function save(saying: SayingVM) {
     return fetch(rootUrl, { headers: jsonHeaders, method: "POST", body: JSON.stringify(saying) })
         .then(status)
         .then(response => json<SaveResult>(response))

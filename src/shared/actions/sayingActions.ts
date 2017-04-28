@@ -1,5 +1,5 @@
 import AppDispatcher from "../AppDispatcher";
-import { Saying } from "../domain/dtos/saying";
+import { SayingVM } from "../domain/dtos/saying";
 import * as sayingService from "../services/sayingService";
 import { ValidationMessages } from "../domain/saveResult";
 
@@ -30,7 +30,7 @@ export function removeSaying(id: number) {
   return sayingService.remove(id);
 }
 
-export function saveSaying(saying: Saying) {
+export function saveSaying(saying: SayingVM) {
   AppDispatcher.dispatch({
     type: SayingActionTypes.SAVE_SAYING,
     payload: saying
@@ -38,10 +38,10 @@ export function saveSaying(saying: Saying) {
   return sayingService.save(saying);
 }
 
-export const loadedSayings = (sayings: Saying[]) =>
+export const loadedSayings = (sayings: SayingVM[]) =>
   AppDispatcher.dispatch({ type: SayingActionTypes.LOADED_SAYINGS, payload: sayings });
 
-export const loadedSaying = (saying: Saying) =>
+export const loadedSaying = (saying: SayingVM) =>
   AppDispatcher.dispatch({ type: SayingActionTypes.LOADED_SAYING, payload: saying });
 
 export const removedSaying = (sayingId: number) =>

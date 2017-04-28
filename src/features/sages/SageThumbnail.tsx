@@ -1,9 +1,9 @@
 import React from "react";
-import { Sage } from "../../shared/domain/dtos/sage";
+import { SageVM } from "../../shared/domain/dtos/sage";
 import { Link } from "react-router-dom";
 
 interface Props {
-  sage: Sage;
+  sage: SageVM;
 }
 
 const SageThumbnail: React.SFC<Props> = ({ sage }) => (

@@ -1,4 +1,4 @@
-export interface Sage {
+export interface SageVM {
     id: number;
     name: string;
     userName: string;

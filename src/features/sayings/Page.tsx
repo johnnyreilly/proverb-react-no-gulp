@@ -4,7 +4,7 @@ import FBEmitter from "fbemitter";
 
 import SayingsStore, { SayingsState } from "./Store";
 import * as SayingActions from "../../shared/actions/sayingActions";
-import SayingComponent from "./Saying";
+import Saying from "./Saying";
 import Waiting from "../../shared/components/Waiting";
 
 type Props = RouteComponentProps<{}>;
@@ -42,7 +42,7 @@ export default class Sayings extends React.Component<Props, SayingsState> {
         <h2>Sayings</h2>
 
         {isInitialised
-          ? [...sayings.values()].map((saying, index) => <SayingComponent key={index} saying={saying} />)
+          ? [...sayings.values()].map((saying, index) => <Saying key={index} saying={saying} />)
           : <Waiting />}
       </div>
     );

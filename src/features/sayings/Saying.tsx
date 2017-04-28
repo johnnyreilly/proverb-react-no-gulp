@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Saying } from "../../shared/domain/dtos/saying";
+import { SayingVM } from "../../shared/domain/dtos/saying";
 
 interface Props {
-  saying: Saying;
+  saying: SayingVM;
 }
 
-const SayingComponent: React.SFC<Props> = ({ saying }) =>
+const Saying: React.SFC<Props> = ({ saying }) =>
   <blockquote>
-    <p><Link to={`/sage/detail/${saying.sage.id}`} className="thumbnail">{saying.text}</Link></p>
-    <footer>{saying.sage.name}</footer>
+    <p><Link to={`/saying/detail/${saying.sageId}`}>{saying.text}</Link></p>
+    <footer>{saying.sageName}</footer>
   </blockquote>;
 
-export default SayingComponent;
+export default Saying;
