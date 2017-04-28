@@ -5,9 +5,9 @@ import FBEmitter from "fbemitter";
 import SayingStore, { SayingState } from "../Store";
 import * as SayingActions from "../../../shared/actions/sayingActions";
 import Waiting from "../../../shared/components/Waiting";
-import FormControls from "../../../shared/components/FormControls";
+import FormControlSelect from "../../../shared/components/FormControlSelect";
 import { SayingVM } from "../../../shared/domain/dtos/saying";
-import { inputValue, dateValue } from "../../../shared/utils/componentHelpers";
+import { SageVM } from "../../../shared/domain/dtos/sage";
 
 type Props = RouteComponentProps<{
   id: string;
@@ -15,6 +15,7 @@ type Props = RouteComponentProps<{
 
 interface State {
   saying: SayingVM | undefined;
+  sages: Map<number, SageVM>;
   validations: Map<string, string>;
   hasChanges: boolean;
   isSavingOrRemoving: "Saving..." | "Removing..." | undefined;
@@ -24,20 +25,21 @@ export default class SayingEdit extends React.Component<Props, State> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
+    const state = SayingStore.getState();
     this.state = Object.assign(
-      this.getSayingAndValidationsFromStore(props.match.params.id, SayingStore.getState()),
-      { hasChanges: false, isSavingOrRemoving: undefined });
+      this.getSayingAndValidationsFromStore(props.match.params.id, state.sayingState),
+      { hasChanges: false, isSavingOrRemoving: undefined, sages: state.sagesState.sages });
   }
 
   _onChange = () => {
     const state = SayingStore.getState();
-    if (state.savedId) {
+    if (state.sayingState.savedId) {
       this.props.history.push(`/saying/detail/${this.props.match.params.id}`);
     } else {
       this.setState((prevState, props) => Object.assign(
         prevState,
-        this.getSayingAndValidationsFromStore(props.match.params.id, state),
-        { isSavingOrRemoving: undefined }
+        this.getSayingAndValidationsFromStore(props.match.params.id, state.sayingState),
+        { isSavingOrRemoving: undefined, sages: state.sagesState.sages }
       )); // TODO: Do something more sophisticated?
     }
   }
@@ -120,7 +122,7 @@ export default class SayingEdit extends React.Component<Props, State> {
   }
 
   render() {
-    const { saying, hasChanges, validations, isSavingOrRemoving } = this.state;
+    const { saying, hasChanges, validations, isSavingOrRemoving, sages } = this.state;
 
     return (
       <div className="container">
@@ -140,18 +142,13 @@ export default class SayingEdit extends React.Component<Props, State> {
               {hasChanges ? <i className="fa fa-asterisk fa-lg text-warning" /> : null}
             </div>
 
-            <h2>Saying Edit: {saying ? saying.name : null}</h2>
+            <h2>Saying Edit</h2>
 
             <div className="form-horizontal">
-              <FormControls label="Name" name="name" value={inputValue(saying.name)} onFieldChange={this._onFieldChange} errors={validations} />
-
-              <FormControls label="Username" name="userName" value={inputValue(saying.userName)} onFieldChange={this._onFieldChange} errors={validations} />
-
-              <FormControls label="Email" name="email" value={inputValue(saying.email)} onFieldChange={this._onFieldChange} errors={validations} />
-
-              <FormControls label="Date of Birth" name="dateOfBirth" type="date" value={dateValue(saying.dateOfBirth)} onFieldChange={this._onFieldChange} errors={validations} />
-
-              <FormControls label="Sagacity" name="sagacity" type="number" value={inputValue(saying.sagacity)} onFieldChange={this._onFieldChange} errors={validations} />
+              <FormControlSelect label="Sage" name="sage" value={saying.sageId} onFieldChange={this._onFieldChange} errors={validations}>
+                  { [...sages.values()].map(sage =>
+                <option key={sage.id} value={sage.id}>{sage.name}</option>)}
+              </FormControlSelect>
             </div>
           </form>
 
@@ -160,3 +157,6 @@ export default class SayingEdit extends React.Component<Props, State> {
     );
   }
 }
+
+
+

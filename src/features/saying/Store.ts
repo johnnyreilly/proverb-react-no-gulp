@@ -1,7 +1,9 @@
 import { Dispatcher } from "flux";
 
+import SagesStore from "../sages/Store";
 import FluxStore from "../../shared/stores/FluxStore";
 import { SayingActionTypes } from "../../shared/actions/sayingActions";
+import { SageActionTypes } from "../../shared/actions/sageActions";
 import { Action } from "../../shared/domain/action";
 import { SayingVM } from "../../shared/domain/dtos/saying";
 import AppDispatcher from "../../shared/AppDispatcher";
@@ -23,7 +25,12 @@ class SayingStore extends FluxStore<SayingState> {
   }
 
   getState() {
-    return this._state;
+    const sagesState = SagesStore.getState();
+
+    return {
+      sayingState: this._state,
+      sagesState
+    };
   }
 
   _onDispatch(action: Action) {
@@ -51,6 +58,11 @@ class SayingStore extends FluxStore<SayingState> {
         this._updateStateAndEmit({ validations: new Map([
           ...Object.keys(validations.errors).map(error => [error, validations.errors[error].join()] as [string, string])
         ]) });
+        break;
+
+      case SageActionTypes.LOADED_SAGES:
+        AppDispatcher.waitFor([SagesStore.dispatchToken]);
+        this.emitChange();
         break;
     }
   }

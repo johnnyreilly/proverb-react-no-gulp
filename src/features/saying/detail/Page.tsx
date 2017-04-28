@@ -1,13 +1,11 @@
 import React from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import FBEmitter from "fbemitter";
-import moment from "moment";
 
 import SayingStore, { SayingState } from "../Store";
 import * as SayingActions from "../../../shared/actions/sayingActions";
 import Waiting from "../../../shared/components/Waiting";
 import { SayingVM } from "../../../shared/domain/dtos/saying";
-import DetailControls from "../../../shared/components/DetailControls";
 
 type Props = RouteComponentProps<{
   id: string;
@@ -21,13 +19,15 @@ export default class SayingDetail extends React.Component<Props, State> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
-    this.state = this.getSayingFromStore(props.match.params.id, SayingStore.getState());
+    const state = SayingStore.getState();
+    this.state = this.getSayingFromStore(props.match.params.id, state.sayingState);
   }
 
   _onChange = () => {
+    const state = SayingStore.getState();
     this.setState((prevState, props) => Object.assign(
       prevState,
-      this.getSayingFromStore(props.match.params.id, SayingStore.getState())
+      this.getSayingFromStore(props.match.params.id, state.sayingState)
     ));
   }
 
@@ -73,18 +73,13 @@ export default class SayingDetail extends React.Component<Props, State> {
               <Link to={`/saying/edit/${this.props.match.params.id}`}><i className="fa fa-pencil fa-lg" /> Edit</Link>
             </div>
 
-            <h2>Saying Details: {saying ? saying.name : null}</h2>
+            <h2>Saying</h2>
 
             <div className="form-horizontal">
-              <DetailControls label="Name" value={saying.name} />
-
-              <DetailControls label="Username" value={saying.userName} />
-
-              <DetailControls label="Email" value={saying.email} />
-
-              <DetailControls label="Date of Birth" value={moment(saying.dateOfBirth).format("ll")} />
-
-              <DetailControls label="Sagacity" value={saying.sagacity} />
+              <blockquote>
+                <p>{saying.text}</p>
+                <footer>{saying.sageName}</footer>
+              </blockquote>
             </div>
           </div>
 
