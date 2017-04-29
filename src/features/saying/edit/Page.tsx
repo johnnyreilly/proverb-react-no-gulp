@@ -3,11 +3,12 @@ import { RouteComponentProps } from "react-router-dom";
 import FBEmitter from "fbemitter";
 
 import SayingStore, { SayingState } from "../Store";
+import { SagesState } from "../../sages/Store";
 import * as SayingActions from "../../../shared/actions/sayingActions";
+import * as SageActions from "../../../shared/actions/sageActions";
 import Waiting from "../../../shared/components/Waiting";
-import FormControlSelect from "../../../shared/components/FormControlSelect";
+import FormControls from "../../../shared/components/FormControls";
 import { SayingVM } from "../../../shared/domain/dtos/saying";
-import { SageVM } from "../../../shared/domain/dtos/sage";
 
 type Props = RouteComponentProps<{
   id: string;
@@ -15,7 +16,7 @@ type Props = RouteComponentProps<{
 
 interface State {
   saying: SayingVM | undefined;
-  sages: Map<number, SageVM>;
+  sagesState: SagesState;
   validations: Map<string, string>;
   hasChanges: boolean;
   isSavingOrRemoving: "Saving..." | "Removing..." | undefined;
@@ -28,7 +29,7 @@ export default class SayingEdit extends React.Component<Props, State> {
     const state = SayingStore.getState();
     this.state = Object.assign(
       this.getSayingAndValidationsFromStore(props.match.params.id, state.sayingState),
-      { hasChanges: false, isSavingOrRemoving: undefined, sages: state.sagesState.sages });
+      { hasChanges: false, isSavingOrRemoving: undefined, sagesState: state.sagesState });
   }
 
   _onChange = () => {
@@ -39,7 +40,7 @@ export default class SayingEdit extends React.Component<Props, State> {
       this.setState((prevState, props) => Object.assign(
         prevState,
         this.getSayingAndValidationsFromStore(props.match.params.id, state.sayingState),
-        { isSavingOrRemoving: undefined, sages: state.sagesState.sages }
+        { isSavingOrRemoving: undefined, sagesState: state.sagesState }
       )); // TODO: Do something more sophisticated?
     }
   }
@@ -62,6 +63,9 @@ export default class SayingEdit extends React.Component<Props, State> {
   componentDidMount() {
     if (!this.state.saying) {
       this.loadSaying(this.props.match.params.id);
+    }
+    if (!this.state.sagesState.isInitialised) {
+      SageActions.loadSages();
     }
   }
 
@@ -122,7 +126,7 @@ export default class SayingEdit extends React.Component<Props, State> {
   }
 
   render() {
-    const { saying, hasChanges, validations, isSavingOrRemoving, sages } = this.state;
+    const { saying, hasChanges, validations, isSavingOrRemoving, sagesState } = this.state;
 
     return (
       <div className="container">
@@ -145,10 +149,12 @@ export default class SayingEdit extends React.Component<Props, State> {
             <h2>Saying Edit</h2>
 
             <div className="form-horizontal">
-              <FormControlSelect label="Sage" name="sage" value={saying.sageId} onFieldChange={this._onFieldChange} errors={validations}>
-                  { [...sages.values()].map(sage =>
+              <FormControls type="select" label="Sage" name="sageId" value={saying.sageId} onFieldChange={this._onFieldChange} errors={validations}>
+                  { [...sagesState.sages.values()].map(sage =>
                 <option key={sage.id} value={sage.id}>{sage.name}</option>)}
-              </FormControlSelect>
+              </FormControls>
+
+              <FormControls type="textarea" label="Saying" name="text" value={saying.text} onFieldChange={this._onFieldChange} errors={validations} />
             </div>
           </form>
 
@@ -157,6 +163,3 @@ export default class SayingEdit extends React.Component<Props, State> {
     );
   }
 }
-
-
-

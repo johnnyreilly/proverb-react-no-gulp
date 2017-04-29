@@ -31,9 +31,9 @@ export function save(saying: SayingVM) {
         .then(response => json<SaveResult>(response))
         .then(saveResult => {
             if (saveResult.isSaved) {
-                savedSaying(saveResult.savedId);
+                savedSaying(saveResult.savedId!);
             } else {
-                saveFailed(saveResult.validations);
+                saveFailed(saveResult.validations!);
             }
         })
         .catch(saveFailed); // TODO: this wouldn't actually receive validations; probably should be separate action
