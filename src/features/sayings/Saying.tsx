@@ -9,7 +9,7 @@ interface Props {
 
 const Saying: React.SFC<Props> = ({ saying }) =>
   <blockquote>
-    <p><Link to={`/saying/detail/${saying.sageId}`}>{saying.text}</Link></p>
+    <p><Link to={`/saying/detail/${saying.id}`}>{saying.text}</Link></p>
     <footer>{saying.sageName}</footer>
   </blockquote>;
 
