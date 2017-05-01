@@ -20,7 +20,7 @@ const App: React.SFC<any> = _props => (
       <Route path="/sages" component={Sages} />
       <Route path="/sage/detail/:id" component={SageDetail} />
       <Route path="/sage/edit/:id" component={SageEdit} />
-      <Route path="/sayings" component={Sayings} />
+      <Route path="/sayings/:selectedSageId?" component={Sayings} />
       <Route path="/saying/detail/:id" component={SayingDetail} />
       <Route path="/saying/edit/:id" component={SayingEdit} />
       <Route path="/about" component={About} />

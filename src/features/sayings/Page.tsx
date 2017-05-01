@@ -9,10 +9,9 @@ import * as SageActions from "../../shared/actions/sageActions";
 import Saying from "./Saying";
 import Waiting from "../../shared/components/Waiting";
 
-type Props = RouteComponentProps<{}>;
+type Props = RouteComponentProps<{ selectedSageId: string | undefined }>;
 
 interface State {
-  selectedSageId: number | undefined;
   sayingsState: SayingsState;
   sagesState: SagesState;
 }
@@ -21,7 +20,12 @@ export default class Sayings extends React.Component<Props, State> {
   eventSubscription: FBEmitter.EventSubscription;
   constructor(props: Props) {
     super(props);
-    this.state = Object.assign({ selectedSageId: undefined }, SayingsStore.getState());
+    this.state = SayingsStore.getState();
+  }
+
+  get selectedSageId() {
+    const { selectedSageId } = this.props.match.params;
+    return selectedSageId ? parseInt(selectedSageId) : undefined;
   }
 
   componentWillMount() {
@@ -47,11 +51,12 @@ export default class Sayings extends React.Component<Props, State> {
 
   _onSelectChange = (formEvent: React.FormEvent<any>) => {
     const { value } = formEvent.target as HTMLSelectElement;
-    this.setState((prevState, _props) => Object.assign(prevState, { selectedSageId: parseInt(value) }));
+    this.props.history.push(`/sayings/${ value }`);
   }
 
   render() {
-    const { sayingsState, sagesState, selectedSageId } = this.state;
+    const selectedSageId = this.selectedSageId;
+    const { sayingsState, sagesState } = this.state;
     const sayings = [...sayingsState.sayings.values()];
     const sayingsToDisplay = selectedSageId ? sayings.filter(saying => saying.sageId === selectedSageId) : sayings;
 
