@@ -30,9 +30,6 @@
         "no-eval": true,
         "no-internal-module": true,
         "no-trailing-whitespace": true,
-        "no-unused-variable": [
-            true, "react"
-        ],
         "no-var-keyword": true,
         "object-literal-sort-keys": false,
         "one-line": [
