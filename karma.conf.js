@@ -2,6 +2,7 @@
 'use strict';
 var path = require('path');
 var webpack = require('webpack');
+
 var webpackConfig = require('./webpack.config.js');
 
 module.exports = function(config) {
@@ -40,8 +41,7 @@ module.exports = function(config) {
             __VERSION__: JSON.stringify('tests'),
             __CONNECTION_URL__: JSON.stringify('http://localhost:7778/')
         })
-      ],
-      resolve: webpackConfig.resolve
+      ]
     },
 
     webpackMiddleware: {
